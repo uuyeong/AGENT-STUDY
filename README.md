@@ -22,7 +22,6 @@ Hermes, Claude 인증, 게이트웨이, `pm`·`marketing`·`client` 프로필이
 프로젝트 폴더에서 실행한다. 기본 명령은 저장소에 들어 있는 샘플 자료와 요청을 사용한다.
 
 ```bash
-cd ~/Developer/AGENT-STUDY
 ./hermes/run_team.sh
 hermes kanban --board odoc watch
 ```
