@@ -1,19 +1,42 @@
 # AGENT-STUDY: ODOC 에이전트 팀
 
-PM·마케팅·고객 응대 에이전트가 Hermes 칸반에서 업무를 나눠 처리한다.
+PM·마케팅·고객 응대·콘텐츠 제작·QA 에이전트가 Hermes 칸반에서 일한다.
 
-## 실행 명령어
+## 실무 의뢰
+
+```bash
+bash hermes/setup_profiles.sh
+mkdir -p hermes/jobs/my-job
+# hermes/jobs/my-job/brief.md에 의뢰서를 작성한다.
+bash hermes/submit_work.sh my-job "Android 다음 업데이트 기획"
+hermes kanban --board odoc-work list
+```
+
+접수 카드는 수동 검토 대기(`blocked`) 상태로 등록된다. 실무 폴더는 의뢰마다 유지하며 Git에서 제외한다.
+[업무 유형과 운영 절차](hermes/OPERATIONS.md)
+
+## 진행 중인 프로젝트를 활용한 테스트
+
+[파비 첫 연결과 첫 사용](hermes/examples/pabi-connection/brief.md)은 DASONI Android를 읽기 전용으로 참고한 팀 검증용 예제다. PM의 구현안, 제작자의 상황별 문구, QA의 증거 확인과 정책 충돌 처리를 검증한다.
+
+```bash
+python3 -m unittest discover -s hermes/tests -v
+```
+
+위 명령은 임시 작업 폴더와 Hermes CLI 대역으로 접수 경로를 검사한다. 실제 보드 접수 예시는 [운영 절차](hermes/OPERATIONS.md#진행-중인-프로젝트를-활용한-예제)에 있다.
+
+## 기존 샘플 실행 명령어
 
 프로젝트 루트에서 실행한다.
 
 ```bash
-# Hermes
+# Hermes 샘플. odoc 보드의 이전 카드는 보관하고 샘플 결과 파일을 다시 쓴다.
 ./hermes/run_team.sh
 hermes kanban --board odoc watch
 ```
 
 ```bash
-# Python 검증용
+# 기존 Claude 검증용
 python3 python/agent.py team
 ```
 

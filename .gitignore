@@ -6,3 +6,4 @@ __pycache__/
 .env.*
 !.env.example
 lecture/
+/hermes/jobs/
