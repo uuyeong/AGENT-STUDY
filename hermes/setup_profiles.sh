@@ -21,12 +21,13 @@ skill_info() {  # id → "스킬이름|설명"
     pm)        echo "meeting-to-kanban|회의록이나 팀원 보고를 받아 칸반으로 정리하고 팀원에게 업무를 배분할 때" ;;
     marketing) echo "product-to-campaign|제품 정보나 pm의 요청을 받아 홍보 문구, 블로그, SNS 초안을 만들 때" ;;
     client)    echo "client-inbox-router|고객 메일을 분류하고 FAQ 기반 답장 초안을 쓰거나 FAQ 항목을 작성할 때" ;;
+    product)   echo "product-planning|사용자 문제부터 기능 범위와 구현·검증 조건을 설계할 때" ;;
     producer)  echo "content-production|제품 자료와 기획을 화면 문구, 사용 안내, 촬영안으로 제작할 때" ;;
     qa)        echo "product-qa|제품 기획과 제작물이 실제 동작 및 제품 기준과 일치하는지 확인할 때" ;;
   esac
 }
 
-for id in pm marketing client producer qa; do
+for id in pm product marketing client producer qa; do
   dir="$HERMES_HOME/profiles/$id"
   if [ ! -d "$dir" ]; then
     hermes profile create "$id" --no-credentials --no-alias

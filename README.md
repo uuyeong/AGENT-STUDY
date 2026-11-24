@@ -1,68 +1,33 @@
-# AGENT-STUDY: ODOC 에이전트 팀
+# AGENT-STUDY · Hermes 실무 에이전트 팀
 
-PM·마케팅·고객 응대·콘텐츠 제작·QA 에이전트가 Hermes 칸반에서 일한다.
+Hermes와 OpenAI Codex로 제품 기획, 사업화, 고객 응대, 콘텐츠 제작 의뢰를 처리합니다. PM이 가공 근거를 트랙별로 분류하고 담당 역할을 배정합니다. QA를 통과한 결과는 Markdown 또는 CSV로 납품합니다.
 
-## 실무 의뢰
+## 처음 실행하기
+
+Python 3.11 이상과 `--safe-mode`, `--toolsets`, `--usage-file`을 지원하는 Hermes CLI가 필요합니다. Hermes 기본 프로필에 OpenAI Codex로 로그인한 후 프로젝트 루트에서 실행합니다.
 
 ```bash
-bash hermes/setup_profiles.sh
-mkdir -p hermes/jobs/my-job
-# hermes/jobs/my-job/brief.md에 의뢰서를 작성한다.
-bash hermes/submit_work.sh my-job "Android 다음 업데이트 기획"
-hermes kanban --board odoc-work list
+mkdir -p hermes/jobs/subscription-support
+cp -n hermes/examples/subscription-support/{brief.md,job.toml,evidence.toml} hermes/jobs/subscription-support/
+python3 hermes/run_work.py subscription-support --check
+python3 hermes/run_work.py subscription-support
 ```
 
-접수 카드는 수동 검토 대기(`blocked`) 상태로 등록된다. 실무 폴더는 의뢰마다 유지하며 Git에서 제외한다.
-[업무 유형과 운영 절차](hermes/OPERATIONS.md)
+마지막 명령은 `hermes/jobs/<의뢰-id>/runs/<실행-id>/delivery/README.md` 경로를 출력합니다.
 
-## 진행 중인 프로젝트를 활용한 테스트
+## 실무에 사용하기
 
-[파비 첫 연결과 첫 사용](hermes/examples/pabi-connection/brief.md)은 DASONI Android를 읽기 전용으로 참고한 팀 검증용 예제다. PM의 구현안, 제작자의 상황별 문구, QA의 증거 확인과 정책 충돌 처리를 검증한다.
+1. 회의록과 문서를 출처가 있는 사실·결정·제안·확인 사항으로 가공합니다.
+2. `hermes/jobs/<의뢰-id>/`에 `brief.md`, `job.toml`, `evidence.toml`을 작성합니다. 의뢰별 트랙, 산출물, 독자, 검수 기준을 지정합니다.
+3. `--check`로 입력을 검증한 뒤 실행합니다. 칸반 추적이 필요하면 `hermes/submit_work.sh`로 접수합니다.
+4. 납품 목록과 QA 기록을 검토합니다. 외부 발송·게시·제출은 오너가 결정합니다.
+
+- [입력 형식과 운영 절차](hermes/OPERATIONS.md)
+- [실행 설계와 역할](docs/DESIGN.md)
+- [검증 결과와 산출물](docs/RESULTS.md)
+
+## 회귀 테스트
 
 ```bash
 python3 -m unittest discover -s hermes/tests -v
 ```
-
-위 명령은 임시 작업 폴더와 Hermes CLI 대역으로 접수 경로를 검사한다. 실제 보드 접수 예시는 [운영 절차](hermes/OPERATIONS.md#진행-중인-프로젝트를-활용한-예제)에 있다.
-
-## 기존 샘플 실행 명령어
-
-프로젝트 루트에서 실행한다.
-
-```bash
-# Hermes 샘플. odoc 보드의 이전 카드는 보관하고 샘플 결과 파일을 다시 쓴다.
-./hermes/run_team.sh
-hermes kanban --board odoc watch
-```
-
-```bash
-# 기존 Claude 검증용
-python3 python/agent.py team
-```
-
-## Example
-
-### 예시 입력
-
-```text
-회의록 발췌
-- 개발은 이번 주 금요일(11/20)까지 마무리하기로 함. 담당 이도윤.
-- 출시 안내 블로그 글 초안을 최하늘이 11/23까지 작성.
-- FAQ에 "공유 폴더" 항목 추가 필요 (담당, 마감 미정).
-
-고객 메일 발췌
-안드로이드에서 공유 폴더를 열면 앱이 바로 종료됩니다. 버전은 3.2.1이에요. 급합니다.
-
-업무 요청 요약
-고객 메일을 분류해 답장 초안을 작성하고, 회의록과 고객 응대 보고를 바탕으로 후속 업무를 배분해. 팀원 작업이 끝나면 최종 칸반에 반영해.
-```
-
-입력 원문 · [회의록](data/meeting_notes.txt) · [고객 메일](data/client_emails.txt) · [제품 소개](data/product_brief.txt) · [FAQ](data/faq.md)
-
-### 예시 출력
-
-고객 응대가 앱 종료 신고를 PM에게 넘겼다. PM은 이를 우선순위 `P0`으로 표시하고 FAQ·블로그·제휴 검토 결과를 최종 칸반에 반영했다.
-
-![PM이 작성한 최종 칸반](docs/images/pm-final.png)
-
-[최종 칸반 원문](hermes/workspace/results/09_pm_final.md) · [고객 메일 분류 캡처](docs/images/client-result.png) · [Hermes 완료 카드 캡처](docs/images/kanban-done.png)
