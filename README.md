@@ -22,7 +22,7 @@ python3 hermes/run_work.py subscription-support
 3. `--check`로 입력을 검증한 뒤 실행합니다. 칸반 추적이 필요하면 `hermes/submit_work.sh`로 접수합니다.
 4. 납품 목록과 QA 기록을 검토합니다. 외부 발송·게시·제출은 오너가 결정합니다.
 
-- [입력 형식과 운영 절차](hermes/OPERATIONS.md)
+- [입력 형식과 운영 절차](docs/OPERATIONS.md)
 - [실행 설계와 역할](docs/DESIGN.md)
 - [검증 결과와 산출물](docs/RESULTS.md)
 

@@ -10,7 +10,7 @@
 | `job.toml` | 트랙과 산출물별 독자, 목적, 검수 기준 |
 | `evidence.toml` | 가공 근거의 고유 ID, 상태, 출처와 요약 |
 
-모델에 전달할 수 있는 자료만 입력한다. 실행 시 가공 자료가 OpenAI Codex에 전달되며 실행 기록과 Hermes 대화에 남을 수 있다. [가상 정기배송 의뢰 예제](examples/subscription-support/)
+모델에 전달할 수 있는 자료만 입력한다. 실행 시 가공 자료가 OpenAI Codex에 전달되며 실행 기록과 Hermes 대화에 남을 수 있다. [가상 정기배송 의뢰 예제](../hermes/examples/subscription-support/)
 
 ### 입력 항목
 
@@ -42,4 +42,4 @@ python3 hermes/run_work.py <의뢰-id>
 
 ## 칸반으로 접수 추적
 
-`bash hermes/submit_work.sh <의뢰-id> "<제목>"`은 `odoc-work`에 `blocked` 상태로 접수한다. `--example`을 붙이면 `odoc-test`에 접수한다. 같은 보드에서 의뢰 ID당 카드 하나를 사용한다. 모델 실행은 `run_work.py`로 시작한다. [칸반 워커 팀 규칙](TEAM.md)
+`bash hermes/submit_work.sh <의뢰-id> "<제목>"`은 `odoc-work`에 `blocked` 상태로 접수한다. `--example`을 붙이면 `odoc-test`에 접수한다. 같은 보드에서 의뢰 ID당 카드 하나를 사용한다. 모델 실행은 `run_work.py`로 시작한다. [칸반 워커 팀 규칙](../hermes/TEAM.md)
