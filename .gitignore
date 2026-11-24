@@ -7,4 +7,3 @@ __pycache__/
 !.env.example
 lecture/
 /hermes/jobs/
-/docs/cases/pabi/

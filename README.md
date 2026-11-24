@@ -1,33 +1,38 @@
 # AGENT-STUDY · Hermes 실무 에이전트 팀
 
-Hermes와 OpenAI Codex로 제품 기획, 사업화, 고객 응대, 콘텐츠 제작 의뢰를 처리합니다. PM이 가공 근거를 트랙별로 분류하고 담당 역할을 배정합니다. QA를 통과한 결과는 Markdown 또는 CSV로 납품합니다.
+OpenAI Codex(`gpt-6-sol`)로 의뢰의 근거를 분류하고, 역할별로 산출물을 작성해 QA 후 납품합니다.
 
-## 처음 실행하기
+## 터미널 시연
 
-Python 3.11 이상과 `--safe-mode`, `--toolsets`, `--usage-file`을 지원하는 Hermes CLI가 필요합니다. Hermes 기본 프로필에 OpenAI Codex로 로그인한 후 프로젝트 루트에서 실행합니다.
-
-```bash
-mkdir -p hermes/jobs/subscription-support
-cp -n hermes/examples/subscription-support/{brief.md,job.toml,evidence.toml} hermes/jobs/subscription-support/
-python3 hermes/run_work.py subscription-support --check
-python3 hermes/run_work.py subscription-support
-```
-
-마지막 명령은 `hermes/jobs/<의뢰-id>/runs/<실행-id>/delivery/README.md` 경로를 출력합니다.
-
-## 실무에 사용하기
-
-1. 회의록과 문서를 출처가 있는 사실·결정·제안·확인 사항으로 가공합니다.
-2. `hermes/jobs/<의뢰-id>/`에 `brief.md`, `job.toml`, `evidence.toml`을 작성합니다. 의뢰별 트랙, 산출물, 독자, 검수 기준을 지정합니다.
-3. `--check`로 입력을 검증한 뒤 실행합니다. 칸반 추적이 필요하면 `hermes/submit_work.sh`로 접수합니다.
-4. 납품 목록과 QA 기록을 검토합니다. 외부 발송·게시·제출은 오너가 결정합니다.
-
-- [입력 형식과 운영 절차](docs/OPERATIONS.md)
-- [실행 설계와 역할](docs/DESIGN.md)
-- [검증 결과와 산출물](docs/RESULTS.md)
-
-## 회귀 테스트
+프로젝트 루트에서 아래 명령을 실행합니다. 터미널에 근거 분류, 역할별 작성, QA 진행 단계가 표시됩니다.
 
 ```bash
-python3 -m unittest discover -s hermes/tests -v
+mkdir -p hermes/jobs/subscription-demo &&
+  cp hermes/examples/subscription-support/{brief.md,job.toml,evidence.toml} hermes/jobs/subscription-demo/ &&
+  python3 hermes/run_work.py subscription-demo --check &&
+  demo_index="$(python3 hermes/run_work.py subscription-demo)" &&
+  printf '%s\n' "$demo_index" &&
+  cat "$demo_index"
 ```
+
+## 시연 입력
+
+가상의 커피 정기배송 사례입니다. 운영 정책과 고객 문의 4건으로 상담 답장과 운영 개선표를 작성합니다.
+
+| 파일 | 내용 |
+| --- | --- |
+| [brief.md](hermes/examples/subscription-support/brief.md) | 의뢰의 목적과 문의 표본을 해석할 범위 |
+| [job.toml](hermes/examples/subscription-support/job.toml) | 작성할 산출물, 독자, QA 기준과 선행 관계 |
+| [evidence.toml](hermes/examples/subscription-support/evidence.toml) | 배송·결제 정책과 가상 문의 4건의 근거 |
+
+## 결과 확인
+
+QA를 통과하면 명령이 납품 목록 경로와 내용을 표시합니다. 같은 폴더에 `support-faq.md`(상담 FAQ·답장 초안)와 `support-actions.csv`(운영 개선표)가 있습니다.
+
+```text
+hermes/jobs/subscription-demo/runs/<실행-id>/delivery/
+```
+
+[시연 실행에서 나온 납품본](docs/cases/subscription-support/outputs/README.md)
+
+[설계와 역할](docs/DESIGN.md) · [운영 절차](docs/OPERATIONS.md) · [실행 결과](docs/RESULTS.md)

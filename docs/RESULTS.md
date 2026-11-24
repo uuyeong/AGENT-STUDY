@@ -1,5 +1,11 @@
 # 실무 워크플로 검증 결과
 
+## 최종 결과물
+
+**[파비 최종 납품본 6개 보기](cases/pabi/outputs/README.md)**
+
+[파비 입력 자료](cases/pabi/inputs/README.md) · [정기배송 시연 납품본](cases/subscription-support/outputs/README.md)
+
 ## 회귀 테스트
 
 **16개 통과.** 칸반 접수, 입력 형식과 선행 관계 검증, 트랙별 근거 분리, CSV 검증, QA 보완과 납품 보류, 모델 사용 기록 검증을 확인했다.
@@ -15,7 +21,7 @@ Hermes 사용 기록에서 두 의뢰 모두 OpenAI Codex(`openai-codex`, `gpt-6
 | 의뢰 | 납품 결과 | 검증 |
 | --- | --- | --- |
 | 파비 개발·사업화 기획 | 교육·판매 2개 트랙에서 Markdown 다섯 편과 CSV 한 편 | 근거 21개 분류 · QA 통과 · 모델 13회 호출 |
-| [가상 커피 정기배송 고객 문의](../hermes/examples/subscription-support/) | 상담 FAQ·답장 초안(Markdown), 운영 개선표(CSV) | QA 통과 · 모델 11회 호출 |
+| [가상 커피 정기배송 시연](cases/subscription-support/inputs/README.md) | [상담 FAQ·답장 초안과 운영 개선표](cases/subscription-support/outputs/README.md) | QA 통과 · 모델 5회 호출 |
 
 ## 파비 개발·사업화 사례
 
@@ -23,7 +29,7 @@ Hermes 사용 기록에서 두 의뢰 모두 OpenAI Codex(`openai-codex`, `gpt-6
 
 ### 입력 자료
 
-아래 상세 자료는 `docs/cases/pabi/`를 갖춘 로컬 작업 사본에서 열 수 있다. 첨부 문서 네 편과 가공 회의록은 출처를 대조하는 자료다. 모델 실행에는 맡은 업무에 맞춰 구조화한 근거를 전달했다. [입력 자료 전체](cases/pabi/inputs/README.md)
+첨부 문서 네 편과 가공 회의록은 출처를 대조하는 자료다. 모델 실행에는 맡은 업무에 맞춰 구조화한 근거를 전달했다. [입력 자료 전체](cases/pabi/inputs/README.md)
 
 | 자료 | 의뢰에 반영한 내용 |
 | --- | --- |
@@ -53,4 +59,4 @@ Hermes 사용 기록에서 두 의뢰 모두 OpenAI Codex(`openai-codex`, `gpt-6
 - **교육** — 해외 초급 팬이 굿즈샵에서 정중히 위치를 묻고, 다른 장면에서도 목표 표현을 쓸 수 있는지 2주 동안 검증하는 안이다. 앱은 연습·기록을 맡고, tv파비는 선택형 음성 경험으로 검토한다. [학습 에피소드](cases/pabi/outputs/learning-episode.md) · [지원사업 기획 초안](cases/pabi/outputs/education-proposal.md)
 - **판매** — 관심 아티스트의 현지 시각 일정과 리마인드로 앱의 반복 사용부터 시험한다. 실물은 소장성과 화면을 조작하지 않고 알림·대화를 이용하는 경험을, 구독은 월간 팬 활동 회고 카드를 각각 가설로 검증한다. 협업 콘텐츠와 음성·투표 혜택은 권리·운영 확인 항목으로 명시했다. [판매 포인트](cases/pabi/outputs/sales-positioning.md) · [MVP 명세](cases/pabi/outputs/goods-mvp.md) · [실험표](cases/pabi/outputs/sales-experiments.csv) · [파트너 협의표](cases/pabi/outputs/partner-checklist.md)
 
-매니저 콘셉트가 어느 사업에 적용되는지는 확인 대상으로 남겼다. 가격, 구매 전환, 학습 효과와 협업 권한은 후속 검증 항목이다. [최종 납품 6건](cases/pabi/outputs/README.md) · [실행 상태](cases/pabi/execution/run.json) · [작업별 모델 사용 기록](cases/pabi/execution/usage-summary.json)
+매니저 콘셉트가 어느 사업에 적용되는지는 확인 대상으로 남겼다. 가격, 구매 전환, 학습 효과와 협업 권한은 후속 검증 항목이다. [실행 상태](cases/pabi/execution/run.json) · [작업별 모델 사용 기록](cases/pabi/execution/usage-summary.json)

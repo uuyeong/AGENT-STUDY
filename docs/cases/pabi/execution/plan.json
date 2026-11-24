@@ -1,0 +1,165 @@
+{
+  "routing": {
+    "two-projects": {
+      "tracks": [
+        "education",
+        "goods"
+      ],
+      "reason": "두 사업의 분리와 자산 공유 범위를 함께 규정하므로 요약 전체가 양쪽 기획의 전제다."
+    },
+    "edu-brief": {
+      "tracks": [
+        "education"
+      ],
+      "reason": "정부지원사업의 대상·형태 검토에 관한 근거다."
+    },
+    "edu-research": {
+      "tracks": [
+        "education"
+      ],
+      "reason": "한국어 학습 문제와 콘텐츠 후보에 관한 검증 전 제안이다."
+    },
+    "edu-scope": {
+      "tracks": [
+        "education"
+      ],
+      "reason": "교육 콘텐츠의 초기 후보와 확장 후보를 구분한다."
+    },
+    "edu-material": {
+      "tracks": [
+        "education"
+      ],
+      "reason": "한국어 발화 에피소드와 학습 활동의 후보를 제시한다."
+    },
+    "edu-platform": {
+      "tracks": [
+        "education"
+      ],
+      "reason": "교육 기획서에 기재된 기술 재사용 후보와 미검증 기능을 구분한다."
+    },
+    "edu-deadline": {
+      "tracks": [
+        "education"
+      ],
+      "reason": "교육 기획 일정의 내부 목표이며 연도와 실제 제출 기한은 미확정이다."
+    },
+    "public-grant": {
+      "tracks": [
+        "education"
+      ],
+      "reason": "정부지원사업의 과거 공고와 차기 공고 재확인 필요성을 다룬다."
+    },
+    "manager": {
+      "tracks": [],
+      "reason": "매니저 콘셉트 결정이 교육·굿즈 중 어느 사업과 기능에 적용되는가?"
+    },
+    "fan-roles": {
+      "tracks": [
+        "education",
+        "goods"
+      ],
+      "reason": "요약 전체가 팬의 K-pop 업계 역할 체험 아이디어와 아티스트 흉내 제공의 미확정을 다룬다. 역할 체험은 교육 발화 장면과 굿즈 사용 경험 모두의 후보로 검토할 수 있으며, 어느 쪽에서도 확정 기능으로 취급하지 않는다."
+    },
+    "goods-price": {
+      "tracks": [
+        "goods"
+      ],
+      "reason": "굿즈 SKU와 구독료의 가격 후보이며 최종 가격이나 지불 의향 근거가 아니다."
+    },
+    "price-conflict": {
+      "tracks": [
+        "education",
+        "goods"
+      ],
+      "reason": "요약 전체가 지원사업 기획서의 tv파비 예정 가격과 굿즈 회의의 SKU별 후보 가격을 비교하고 동일 SKU 여부를 미확정으로 둔다. 양쪽 모두 가격을 확정하거나 동일 제품으로 간주하지 않기 위해 필요한 근거다."
+    },
+    "goods-app-first": {
+      "tracks": [
+        "goods"
+      ],
+      "reason": "판매용 앱 선행 경험과 기기 효용의 제안이며 구현 상태는 미확인이다."
+    },
+    "goods-weekly": {
+      "tracks": [
+        "goods"
+      ],
+      "reason": "판매용 서비스의 주간 재방문 구조와 알림 운영 조건을 다룬다."
+    },
+    "goods-exclusive": {
+      "tracks": [
+        "goods"
+      ],
+      "reason": "협업 자료를 활용한 판매 후보와 미확인 권리를 구분한다."
+    },
+    "goods-voting": {
+      "tracks": [
+        "goods"
+      ],
+      "reason": "구독 혜택 후보이며 투표 권한과 시장 수요는 확인되지 않았다."
+    },
+    "goods-live": {
+      "tracks": [
+        "goods"
+      ],
+      "reason": "방송 연동 방식의 상충하는 전제와 방송 없이 검증할 대안을 다룬다."
+    },
+    "public-show": {
+      "tracks": [
+        "goods"
+      ],
+      "reason": "협업 판매 구상에 관련된 공개 방송 정보이며 자료 제공이나 재사용 승인 근거는 아니다."
+    },
+    "rights": {
+      "tracks": [
+        "education",
+        "goods"
+      ],
+      "reason": "요약 전체의 인용 조건과 자작 예시·공식 링크·기본 음성 우선 원칙은 교육 콘텐츠와 판매용 굿즈 콘텐츠 모두에 적용된다. 방송·아티스트 소재·가사의 용도별 권리 확인도 양쪽에서 필요하다."
+    },
+    "retired-romance": {
+      "tracks": [
+        "education",
+        "goods"
+      ],
+      "reason": "요약 전체가 과거 연애 콘셉트를 현 의뢰의 굿즈 제품 약속과 교육 범위 모두에서 채택하지 않는다고 명시한다. 매니저 결정의 적용 범위가 확정됐다는 뜻은 아니다."
+    },
+    "partner-data": {
+      "tracks": [
+        "goods"
+      ],
+      "reason": "아리랑TV 협업 자료의 제공 여부와 운영·권한 조건을 확인할 항목이다."
+    }
+  },
+  "assignments": {
+    "learning-episode": {
+      "role": "producer",
+      "format": "md",
+      "focus": "초급 해외 팬의 자작 한국어 발화 장면과 응답·피드백·재시도 대본"
+    },
+    "sales-positioning": {
+      "role": "marketing",
+      "format": "md",
+      "focus": "판매 포인트와 구매·재방문·구독 이유를 분리한 검증 및 가격 가설 메모"
+    },
+    "partner-checklist": {
+      "role": "marketing",
+      "format": "md",
+      "focus": "협업 자료·사용 권한·운영 조건을 확인하는 미팅 안건 초안"
+    },
+    "education-proposal": {
+      "role": "pm",
+      "format": "md",
+      "focus": "교육 사업의 결정 사항, 학습 검증 가설, 2주 파일럿과 확장 보류 조건을 통합한 기획 초안"
+    },
+    "goods-mvp": {
+      "role": "product",
+      "format": "md",
+      "focus": "앱 선행·기기 추가 범위, 사용 루프, 기능별 수용 기준과 미확인 의존성"
+    },
+    "sales-experiments": {
+      "role": "marketing",
+      "format": "csv",
+      "focus": "판매 메시지·하드웨어 수요·구독 지불 의향의 비결제 실험과 제안 판정 기준"
+    }
+  }
+}
