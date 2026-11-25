@@ -1,18 +1,18 @@
 {
-  "run_id": "20261125T013227Z-y6_2evba",
-  "api_calls": 5,
-  "input_tokens": 86133,
-  "output_tokens": 7448,
+  "run_id": "20261125T022818Z-qym93oxw",
+  "api_calls": 3,
+  "input_tokens": 55004,
+  "output_tokens": 4112,
   "by_role": {
     "pm": {
-      "api_calls": 3,
-      "input_tokens": 77902,
-      "output_tokens": 6734
+      "api_calls": 2,
+      "input_tokens": 50347,
+      "output_tokens": 3849
     },
     "qa": {
-      "api_calls": 2,
-      "input_tokens": 8231,
-      "output_tokens": 714
+      "api_calls": 1,
+      "input_tokens": 4657,
+      "output_tokens": 263
     }
   },
   "usage_by_stage": {
@@ -22,8 +22,8 @@
       "model": "gpt-6-sol",
       "completed": true,
       "api_calls": 1,
-      "input_tokens": 24686,
-      "output_tokens": 68
+      "input_tokens": 24762,
+      "output_tokens": 76
     },
     "pm-spec-1": {
       "role": "pm",
@@ -31,8 +31,8 @@
       "model": "gpt-6-sol",
       "completed": true,
       "api_calls": 1,
-      "input_tokens": 25326,
-      "output_tokens": 3057
+      "input_tokens": 25585,
+      "output_tokens": 3773
     },
     "qa-review-spec-1": {
       "role": "qa",
@@ -40,26 +40,8 @@
       "model": "gpt-6-sol",
       "completed": true,
       "api_calls": 1,
-      "input_tokens": 3857,
-      "output_tokens": 538
-    },
-    "pm-spec-2": {
-      "role": "pm",
-      "provider": "openai-codex",
-      "model": "gpt-6-sol",
-      "completed": true,
-      "api_calls": 1,
-      "input_tokens": 27890,
-      "output_tokens": 3609
-    },
-    "qa-review-spec-2": {
-      "role": "qa",
-      "provider": "openai-codex",
-      "model": "gpt-6-sol",
-      "completed": true,
-      "api_calls": 1,
-      "input_tokens": 4374,
-      "output_tokens": 176
+      "input_tokens": 4657,
+      "output_tokens": 263
     }
   },
   "unrecorded_stages": []

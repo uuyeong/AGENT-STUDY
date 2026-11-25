@@ -1,174 +1,177 @@
 {
   "routing": {
-    "e01": {
+    "e-two": {
       "tracks": [
         "grant",
         "goods"
       ],
-      "reason": "두 사업을 분리한다는 결정으로, 요약 전체가 두 트랙에 동일하게 적용된다."
+      "reason": "두 사업을 분리한다는 결정 전체가 두 트랙의 범위 설정에 동일하게 적용된다. [e-two]"
     },
-    "e02": {
+    "e-grant-ask": {
       "tracks": [
         "grant"
       ],
-      "reason": "정부지원사업의 확정 기획 방향이다."
+      "reason": "지원 요건 검토를 교육 콘텐츠 기획에 선행하도록 한 결정이다. [e-grant-ask]"
     },
-    "e03": {
-      "tracks": [
-        "grant"
-      ],
-      "reason": "정부지원사업용 기기 형태의 미정 사항이다."
-    },
-    "e04": {
-      "tracks": [
-        "grant"
-      ],
-      "reason": "정부지원사업용 교육 콘텐츠 아이디어다."
-    },
-    "e05": {
-      "tracks": [
-        "grant"
-      ],
-      "reason": "정부지원사업 문서의 기존 작성 방향이다. 이번 의뢰의 내부 검토용 형식을 변경하지 않는다."
-    },
-    "e06": {
-      "tracks": [
-        "grant"
-      ],
-      "reason": "지원사업 공고의 기준 연도에 관한 기존 자료의 미확인 내용이다."
-    },
-    "e07": {
-      "tracks": [
-        "grant"
-      ],
-      "reason": "교육 콘텐츠의 지원 목적 적합성 확인 사항이다."
-    },
-    "e08": {
-      "tracks": [
-        "grant"
-      ],
-      "reason": "교육 콘텐츠 구성에 관한 기존 제안이다."
-    },
-    "e09": {
-      "tracks": [
-        "grant"
-      ],
-      "reason": "교육 콘텐츠의 방송 청취 방식에 관한 권리 확인 사항이다."
-    },
-    "e10": {
+    "e-goods-ask": {
       "tracks": [
         "goods"
       ],
-      "reason": "판매 사업의 앱 선행 경험과 실물 확장 후보에 관한 제안이다."
+      "reason": "기능·셀링 포인트·판매 방식에 관한 요청이다. [e-goods-ask]"
     },
-    "e11": {
-      "tracks": [
-        "goods"
-      ],
-      "reason": "goods-review가 매니저 방향의 적용 범위 확인을 명시적으로 요구한다. 선택 기록만 반영하고 적용 사업과 동작은 미정으로 둔다."
-    },
-    "e12": {
-      "tracks": [
-        "goods"
-      ],
-      "reason": "판매용 기기 구성과 가격·구독료 후보에 관한 내용이다."
-    },
-    "e13": {
-      "tracks": [
-        "goods"
-      ],
-      "reason": "굿즈의 아티스트 소재와 음성 사용에 관한 확인 사항이다."
-    },
-    "e14": {
-      "tracks": [
-        "goods"
-      ],
-      "reason": "판매 사업의 파트너 및 구독 혜택 제안이다."
-    },
-    "e15": {
-      "tracks": [
-        "goods"
-      ],
-      "reason": "아티스트 답변지·음성 파일을 이용한 제품 경험 제안이다."
-    },
-    "e16": {
-      "tracks": [
-        "goods"
-      ],
-      "reason": "팬 대상 제품 경험으로 검토할 수 있는 후보 아이디어다. 채택이나 구현 가능성을 뜻하지 않는다."
-    },
-    "e17": {
+    "e-fixed-concept": {
       "tracks": [
         "grant"
       ],
-      "reason": "2026 공고 요건에 관한 기존 기획서의 미확인 정리다."
+      "reason": "기획 메모에 적힌 tv파비 활용·한국어 교육 방향이다. 기기 형태나 사용 권한까지 확정한 근거는 아니다. [e-fixed-concept]"
     },
-    "e18": {
+    "e-form-open": {
       "tracks": [
         "grant"
       ],
-      "reason": "2026 서면평가 항목에 관한 기존 기획서의 미확인 정리다."
+      "reason": "교육 콘텐츠 후보의 기기 역할을 설계할 때 형태를 미정으로 유지해야 한다. [e-form-open]"
     },
-    "e19": {
+    "e-grant-format": {
       "tracks": [
         "grant"
       ],
-      "reason": "2026 선정 사례에 관한 기존 기획서의 미확인 정리다."
+      "reason": "기존 메모의 문서 형식 제안이며, 이번 산출물 형식을 바꾸는 결정은 아니다. [e-grant-format]"
     },
-    "e20": {
+    "e-grant-year": {
+      "tracks": [
+        "grant"
+      ],
+      "reason": "제공 자료가 2027 공고 대신 2026 공고를 참고했다는 한계다. [e-grant-year]"
+    },
+    "e-grant-source": {
+      "tracks": [
+        "grant"
+      ],
+      "reason": "공고·선정결과·외부 자료·자체 유추를 구분하는 데 필요하다. [e-grant-source]"
+    },
+    "e-grant-fit": {
+      "tracks": [
+        "grant"
+      ],
+      "reason": "교육 콘텐츠의 사업 목적 적합성은 확인이 필요한 항목이다. [e-grant-fit]"
+    },
+    "e-grant-conditions": {
+      "tracks": [
+        "grant"
+      ],
+      "reason": "제공된 2026 요건 정리를 공식 공고 원문과 대조할 항목이다. [e-grant-conditions]"
+    },
+    "e-grant-rights": {
+      "tracks": [
+        "grant"
+      ],
+      "reason": "IP·검증·피칭·자부담·협업 문서에 관한 기존 정리를 공식 원문과 대조할 항목이다. [e-grant-rights]"
+    },
+    "e-grant-partner": {
+      "tracks": [
+        "grant"
+      ],
+      "reason": "아리랑 협업이 지원사업에 미치는 영향은 아직 확인되지 않았다. [e-grant-partner]"
+    },
+    "e-fan-concept": {
+      "tracks": [
+        "grant"
+      ],
+      "reason": "방송 시청과 한국어 대화를 잇는 교육 콘텐츠 후보이다. [e-fan-concept]"
+    },
+    "e-learning-loop": {
+      "tracks": [
+        "grant"
+      ],
+      "reason": "사용자가 파비에게 한국어를 가르치는 음성 대화 후보이다. [e-learning-loop]"
+    },
+    "e-app-first": {
       "tracks": [
         "goods"
       ],
-      "reason": "굿즈에 사용할 수 있는 방송·아티스트 소재의 용도별 권리 확인 사항이다."
+      "reason": "앱 경험 선시험과 실물 연계라는 판매 흐름의 제안이다. [e-app-first]"
+    },
+    "e-manager": {
+      "tracks": [
+        "goods"
+      ],
+      "reason": "판매 산출물이 매니저 역할 비교를 명시적으로 요구하므로 적용 범위 확인용으로 배정한다. 매니저 방향은 선택됐지만 적용 사업과 동작은 미정이다. [e-manager]"
+    },
+    "e-price": {
+      "tracks": [
+        "goods"
+      ],
+      "reason": "가격은 판매안의 후보로만 다룰 수 있으며 구성과 정식 가격은 미정이다. [e-price]"
+    },
+    "e-exclusive": {
+      "tracks": [
+        "goods"
+      ],
+      "reason": "아티스트 답변·녹음의 제공 및 사용 권한을 확인할 항목이다. [e-exclusive]"
+    },
+    "e-vote": {
+      "tracks": [
+        "goods"
+      ],
+      "reason": "스트리밍·투표 혜택은 파트너 정책 확인을 전제로 한 제안이다. [e-vote]"
+    },
+    "e-rights": {
+      "tracks": [
+        "grant",
+        "goods"
+      ],
+      "reason": "원곡 가사·음성의 이용 가능 범위가 미확인이라는 요약 전체가 교육 콘텐츠의 자료 사용과 굿즈의 음성 기능 양쪽에 적용된다. [e-rights]"
+    },
+    "e-prototype": {
+      "tracks": [
+        "grant"
+      ],
+      "reason": "해외 학습자 인터뷰와 발화 연습 시험은 제안 단계이며 개선·정확도는 확인 항목이다. [e-prototype]"
     }
   },
   "assignments": {
-    "grant-basis": {
-      "role": "marketing",
-      "evidence_ids": [
-        "e02",
-        "e03",
-        "e04",
-        "e06",
-        "e07",
-        "e17",
-        "e18",
-        "e19"
-      ],
-      "focus": "확정 방향과 미정 아이디어를 구분하고, 공고 요건·평가항목·선정 사례는 기존 자료의 주장으로 표시한다. 공식 공고 원문 확인 방법과 협업 영향의 확인 항목을 정리한다."
-    },
-    "goods-review": {
+    "grant-requirements": {
       "role": "product",
       "evidence_ids": [
-        "e10",
-        "e11",
-        "e12",
-        "e14",
-        "e15",
-        "e16"
+        "e-grant-ask",
+        "e-grant-year",
+        "e-grant-source",
+        "e-grant-fit",
+        "e-grant-conditions",
+        "e-grant-rights",
+        "e-grant-partner"
       ],
-      "focus": "앱 선행 경험과 실물 확장, 팬 경험·매니저·구독 혜택을 후보로 비교한다. 매니저 방향의 적용 범위와 동작, 기기 구성과 가격은 미정으로 둔다."
+      "focus": "현재 자료의 준비 사항과 신청 전 확인 사항을 구분한다. 2026 요약·과거 사례·자체 유추를 공식 공고 원문과 대조할 경로를 제시하고, 미확인 요건·배점·일정은 확정하지 않는다."
     },
-    "grant-concepts": {
-      "role": "product",
-      "evidence_ids": [
-        "e04",
-        "e08",
-        "e09"
-      ],
-      "focus": "grant-basis의 확인 수준을 전제로 교육 콘텐츠 후보의 경험·기술·데이터·검증 가설을 비교하고, 방송·가사·아티스트 소재의 권리 확인을 보류 조건으로 둔다."
-    },
-    "goods-conditions": {
+    "goods-strategy": {
       "role": "marketing",
       "evidence_ids": [
-        "e13",
-        "e20"
+        "e-goods-ask",
+        "e-app-first",
+        "e-manager",
+        "e-price",
+        "e-exclusive",
+        "e-vote",
+        "e-rights"
       ],
-      "focus": "goods-review에서 전달받은 기능 후보에 필요한 소재와 협업 조건만 연결한다. 녹음 재생과 합성 음성의 권리 확인을 구분하고 확인 상대·방법과 미확인 시 대안을 적는다."
+      "focus": "앱과 로봇의 역할을 나눠 기능·셀링 포인트·판매 흐름의 우선순위와 검증 방법을 제안한다. 매니저 방향의 적용 범위, 자료·혜택의 권한, 가격은 미확정으로 둔다."
+    },
+    "grant-concept": {
+      "role": "pm",
+      "evidence_ids": [
+        "e-fixed-concept",
+        "e-form-open",
+        "e-fan-concept",
+        "e-learning-loop",
+        "e-rights",
+        "e-prototype"
+      ],
+      "focus": "grant-requirements를 선행 요약으로 받아 추천 방향·확인 가설·다음 실험·보류 조건부터 제시한다. 말하기 경험 중심의 후보를 비교하되 기기 형태, 자료 권한, 학습 효과는 확정하지 않는다."
     }
   },
   "owner_review": [
-    "2027 지원사업 공고 원문을 확인한 뒤 교육 콘텐츠 후보의 우선순위를 결정할지 확인해 주세요.",
-    "매니저 방향을 AI 굿즈 검토 범위에 포함할지 확인해 주세요."
+    "검토 대상 지원사업의 공식 공고와 연도를 지정할지 결정해 주세요.",
+    "아리랑 협업 범위와 아티스트·원곡 자료의 사용 권한을 확인할 수 있는지 알려 주세요.",
+    "매니저 방향을 어느 사업에 적용할지, 실물 형태를 지금 결정할지 확인해 주세요."
   ]
 }

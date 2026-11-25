@@ -1,0 +1,103 @@
+{
+  "run_id": "20261125T023121Z-skaxpqj7",
+  "api_calls": 8,
+  "input_tokens": 27572,
+  "output_tokens": 8214,
+  "by_role": {
+    "pm": {
+      "api_calls": 3,
+      "input_tokens": 9139,
+      "output_tokens": 4089
+    },
+    "qa": {
+      "api_calls": 3,
+      "input_tokens": 14398,
+      "output_tokens": 509
+    },
+    "product": {
+      "api_calls": 1,
+      "input_tokens": 2018,
+      "output_tokens": 1509
+    },
+    "marketing": {
+      "api_calls": 1,
+      "input_tokens": 2017,
+      "output_tokens": 2107
+    }
+  },
+  "usage_by_stage": {
+    "pm-plan": {
+      "role": "pm",
+      "provider": "openai-codex",
+      "model": "gpt-6-sol",
+      "completed": true,
+      "api_calls": 1,
+      "input_tokens": 3922,
+      "output_tokens": 2057
+    },
+    "qa-review-routing-1": {
+      "role": "qa",
+      "provider": "openai-codex",
+      "model": "gpt-6-sol",
+      "completed": true,
+      "api_calls": 1,
+      "input_tokens": 4770,
+      "output_tokens": 210
+    },
+    "product-grant-requirements-draft": {
+      "role": "product",
+      "provider": "openai-codex",
+      "model": "gpt-6-sol",
+      "completed": true,
+      "api_calls": 1,
+      "input_tokens": 2018,
+      "output_tokens": 1509
+    },
+    "marketing-goods-strategy-draft": {
+      "role": "marketing",
+      "provider": "openai-codex",
+      "model": "gpt-6-sol",
+      "completed": true,
+      "api_calls": 1,
+      "input_tokens": 2017,
+      "output_tokens": 2107
+    },
+    "pm-grant-concept-draft": {
+      "role": "pm",
+      "provider": "openai-codex",
+      "model": "gpt-6-sol",
+      "completed": true,
+      "api_calls": 1,
+      "input_tokens": 2264,
+      "output_tokens": 1681
+    },
+    "qa-review-1-grant": {
+      "role": "qa",
+      "provider": "openai-codex",
+      "model": "gpt-6-sol",
+      "completed": true,
+      "api_calls": 1,
+      "input_tokens": 5752,
+      "output_tokens": 214
+    },
+    "qa-review-1-goods": {
+      "role": "qa",
+      "provider": "openai-codex",
+      "model": "gpt-6-sol",
+      "completed": true,
+      "api_calls": 1,
+      "input_tokens": 3876,
+      "output_tokens": 85
+    },
+    "pm-overview": {
+      "role": "pm",
+      "provider": "openai-codex",
+      "model": "gpt-6-sol",
+      "completed": true,
+      "api_calls": 1,
+      "input_tokens": 2953,
+      "output_tokens": 351
+    }
+  },
+  "unrecorded_stages": []
+}

@@ -33,6 +33,7 @@ class Output:
     needs: tuple[str, ...]
     format: str
     columns: tuple[str, ...]
+    question: str = ""
 
 
 @dataclass(frozen=True)
@@ -48,6 +49,7 @@ class Job:
     root: Path
     title: str
     brief: str
+    questions: tuple[str, ...]
     tracks: dict[str, Track]
     outputs: dict[str, Output]
     evidence: dict[str, Evidence]
@@ -133,7 +135,16 @@ def load_job(root):
         outputs[key] = Output(
             key, track, text(row.get("audience"), f"{key}.audience"), text(row.get("goal"), f"{key}.goal"),
             checks, texts(row.get("needs", []), f"{key}.needs"), "md", columns,
+            text(row["question"], f"{key}.question") if "question" in row else "",
         )
+    questions = texts(spec.get("questions", []), "questions")
+    if len(set(questions)) != len(questions):
+        raise JobError("questions에 중복된 질문이 있습니다.")
+    answered = {output.question for output in outputs.values() if output.question}
+    if not answered <= set(questions):
+        raise JobError("산출물의 question은 questions에 있는 질문이어야 합니다.")
+    if set(questions) - answered:
+        raise JobError("모든 질문에 답하는 산출물이 하나 이상 있어야 합니다.")
     if {output.track for output in outputs.values()} != tracks.keys():
         raise JobError("각 트랙에 최소 한 개의 산출물이 필요합니다.")
     for output in outputs.values():
@@ -149,4 +160,4 @@ def load_job(root):
         evidence[key] = Evidence(
             key, status, text(row.get("source"), f"{key}.source"), text(row.get("summary"), f"{key}.summary"),
         )
-    return Job(root, text(spec.get("title"), "title"), brief, tracks, topological_outputs(outputs), evidence)
+    return Job(root, text(spec.get("title"), "title"), brief, questions, tracks, topological_outputs(outputs), evidence)

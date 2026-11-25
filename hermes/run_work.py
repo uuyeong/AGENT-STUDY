@@ -67,6 +67,7 @@ def require_keys(data, keys, where):
 def contract(job):
     return {
         "title": job.title,
+        "questions": list(job.questions),
         "brief": job.brief,
         "tracks": [asdict(item) for item in job.tracks.values()],
         "outputs": [asdict(item) for item in job.outputs.values()],
@@ -213,6 +214,7 @@ def make_artifact(job, plan, output, artifacts, issues, invoke, stage):
     response = invoke(assignment["role"], f"{output.id}-{stage}", f"""
 배정 산출물 한 개를 독자·목적에 맞게 작성한다. {format_instruction}
 JSON 객체만 출력한다. summary는 한 줄 문장 1~4개와 총 {SUMMARY_LIMIT}자 이내로 쓴다.
+output.question이 있으면 summary 첫 줄은 그 질문에 대한 직접적인 답과 추천이다. 근거가 부족해도 현재 자료로 내릴 수 있는 최선의 판단을 추천으로 밝히고, 확신을 높이려면 무엇을 확인할지 덧붙인다. 미정 사항만 나열하고 끝내지 않는다.
 summary는 독자가 먼저 보는 요약이자 선행 인계다. 후속 작업에 필요한 결정, 제약, 검증 기준을 짧게 담고 사실에는 [근거-ID]를 남긴다.
 검수 기준을 충족하고, 근거가 비면 확인 방법과 다음 판단을 적는다.
 선행 요약에 기재된 설계는 선행 문서의 제안으로 표기한다. 선행 파일에 연결할 때는 [문서명](산출물-ID.md)을 쓰고 [근거-ID] 인용과 구분한다.
@@ -257,6 +259,7 @@ def review_artifacts(job, artifacts, invoke, round_number, output_ids):
             "prerequisites": {key: artifacts[key].summary for key in job.outputs if key in prerequisites},
         }
         answer = invoke("qa", f"review-{round_number}-{track.id}", """
+먼저 question이 있는 산출물의 summary 첫 줄이 그 질문에 직접 답하고 추천하는지 확인한다. 답 없이 미정 사항만 나열하면 막는다.
 각 산출물의 검수 기준, 출처, 실행 가능성, 트랙 범위, 사실과 제안 구분을 확인한다.
 근거 ID는 산출물별 evidence_by_output에 있는 범위로 확인한다.
 근거 부족을 밝히고 확인 방법을 제안하면 적합할 수 있다. 인계 요약에 후속 판단에 필요한 결정과 제약이 남았는지 확인한다.
@@ -306,27 +309,91 @@ def record_usage(run, stages):
     }
 
 
-def release(job, plan, artifacts, run, usage):
+ROLE_NAMES = {"pm": "PM", "product": "제품기획", "marketing": "마케팅", "client": "고객 응대", "producer": "제작"}
+
+
+def role_label(role):
+    return f"{ROLE_NAMES[role]} ({role})"
+
+
+OVERVIEW = """모든 문서가 검수를 통과했다. 사용자에게 보낼 결과 보고의 첫 부분을 쓴다.
+사용자의 요청을 어떻게 나눠 받았는지, 사업(트랙)마다 자료를 보고 어떻게 판단했는지, 최종 결론이 무엇인지 쉬운 말로 쓴다.
+결론은 검수를 통과한 문서 요약(outputs.*.summary) 안에서만 쓰고, 질문이 있으면 질문에 대한 답으로 쓴다.
+누구에게 어떤 일을 맡겼는지는 실행기가 배정표로 채우므로 쓰지 않는다. 근거 ID와 문서 ID는 쓰지 않는다.
+{"opening":"요청을 어떻게 나눠 진행했는지 한두 문장","tracks":{"트랙-ID":{"judgment":"자료를 보고 내린 판단과 그렇게 일을 나눈 이유","conclusion":"이 사업의 결론"}}}
+모든 트랙 ID를 포함한 JSON 객체만 출력한다. 각 값은 한 줄 문장이다.
+"""
+
+
+def make_overview(job, plan, artifacts, invoke):
+    """Ask the PM for a short narrative of the run; the delegation lines come from the plan, not the model."""
+    data = {
+        "questions": list(job.questions),
+        "brief": job.brief,
+        "tracks": [asdict(track) for track in job.tracks.values()],
+        "outputs": {key: {"track": output.track, "goal": output.goal, "question": output.question,
+                          "role": plan["assignments"][key]["role"], "focus": plan["assignments"][key]["focus"],
+                          "summary": artifacts[key].summary}
+                    for key, output in job.outputs.items()},
+        "owner_review": plan["owner_review"],
+    }
+    overview = read_json(invoke("pm", "overview", OVERVIEW, data), "PM 정리")
+    require_keys(overview, ("opening", "tracks"), "PM 정리")
+    require_keys(overview["tracks"], job.tracks, "PM 정리 트랙")
+    one_line(overview["opening"], "PM 정리 opening")
+    for key, item in overview["tracks"].items():
+        require_keys(item, ("judgment", "conclusion"), f"PM 정리 {key}")
+        one_line(item["judgment"], f"{key} judgment")
+        one_line(item["conclusion"], f"{key} conclusion")
+    return overview
+
+
+def release(job, plan, artifacts, run, usage, overview=None):
     pending = run / ".delivery"
     pending.mkdir()
     lines = [f"# {job.title} · PM 결과 보고", "",
              f"> 문서 {len(artifacts)}편 검수 통과 · 실행 ID `{run.name}`", ""]
-    if plan["owner_review"]:
+    if overview:
+        lines.extend(["## PM 정리", "", overview["opening"], ""])
+        for track in job.tracks.values():
+            delegated = " / ".join(
+                f"{role_label(plan['assignments'][key]['role'])} - {output.goal}"
+                for key, output in job.outputs.items() if output.track == track.id)
+            lines.extend([f"### {track.label}", "",
+                          f"- **판단** {overview['tracks'][track.id]['judgment']}",
+                          f"- **맡긴 일** {delegated}",
+                          f"- **결론** {overview['tracks'][track.id]['conclusion']}", ""])
+        if plan["owner_review"]:
+            lines.extend(["### 결정하실 것", "", *(f"- {item}" for item in plan["owner_review"]), ""])
+    if job.questions:
+        lines.extend(["## 질문과 답", ""])
+        for question in job.questions:
+            lines.extend([f"### {question}", ""])
+            for key, output in job.outputs.items():
+                if output.question == question:
+                    lines.append(f"- {artifacts[key].summary[0]} ([{output.goal}]({key}.md))")
+            lines.append("")
+    if plan["owner_review"] and not overview:
         lines.extend(["## 사용자 확인 사항", "", *(f"- {item}" for item in plan["owner_review"]), ""])
+    lines.extend(["## 문서", ""])
     for track in job.tracks.values():
-        lines.extend([f"## {track.label}", ""])
+        lines.extend([f"### {track.label}", ""])
         for key, output in job.outputs.items():
             if output.track == track.id:
                 name = f"{key}.md"
                 (pending / name).write_text(artifacts[key].markdown, encoding="utf-8")
-                role = plan["assignments"][key]["role"]
-                lines.append(f"- **[{output.goal}]({name})** · 담당 `{role}`")
+                role = role_label(plan["assignments"][key]["role"])
+                lines.append(f"- **[{output.goal}]({name})** · 담당 {role}")
         lines.append("")
     plan_file = "replan.json" if (run / "replan.json").is_file() else "plan.json"
+    reviews = sorted(path.name for path in run.glob("review-[0-9]*.json"))
     lines.extend(["## 실행 기록", "",
-                  f"- 모델 호출 {usage['api_calls']:,}회 · 입력 {usage['input_tokens']:,} · 출력 {usage['output_tokens']:,} 토큰",
-                  f"- [PM 배정](../{plan_file}) · [근거 색인](../inputs.json) · [실행 상태](../run.json) · [역할별 토큰](../usage-summary.json)",
-                  "- QA 기록은 실행 폴더의 `review-*.json`에서 확인할 수 있습니다.", ""])
+                  f"모델 호출 {usage['api_calls']:,}회 · 입력 {usage['input_tokens']:,} · 출력 {usage['output_tokens']:,} 토큰", "",
+                  f"- [PM 배정](../{plan_file}): 문서마다 맡은 직원과 사용할 근거",
+                  "- [근거 색인](../inputs.json): 이번 실행에 쓴 질문, 사업 구분, 문서 목록, 근거 전체",
+                  *(f"- [QA {name.split('-')[1].split('.')[0]}차 검수](../{name}): 문서별 수정 요청. 빈 목록이면 통과" for name in reviews),
+                  "- [실행 상태](../run.json): 이번 실행의 통과 여부",
+                  "- [역할별 토큰](../usage-summary.json): 직원별 모델 호출 수와 입력·출력 토큰", ""])
     (pending / "README.md").write_text("\n".join(lines), encoding="utf-8")
     pending.rename(run / "delivery")
 
@@ -389,9 +456,15 @@ def run_job(job, backend):
         if any(result.values()):
             raise JobError(f"검수에서 해결되지 않은 항목이 있습니다. review-{review_number}.json을 확인하세요.")
 
+        try:
+            overview = make_overview(job, plan, artifacts, invoke)
+            write_json(run / "overview.json", overview)
+        except JobError as error:
+            overview = None
+            write_json(run / "overview.json", {"error": str(error)})
         usage = record_usage(run, stages)
         write_json(run / "usage-summary.json", usage)
-        release(job, plan, artifacts, run, usage)
+        release(job, plan, artifacts, run, usage, overview)
     except (JobError, OSError, UnicodeError, KeyboardInterrupt) as error:
         write_json(run / "usage-summary.json", record_usage(run, stages))
         write_json(run / "run.json", {"status": "failed", "job": job.title})

@@ -29,25 +29,29 @@ LIMITS = {"tracks": 4, "outputs": 8, "evidence": 40}
 QUOTE_RANGE = (4, 300)
 JOB_FILES = ("brief.md", "job.toml", "evidence.toml")
 STATUS_LABELS = {"fact": "사실", "decision": "결정", "proposal": "제안", "open": "미정"}
-SPEC_KEYS = ("title", "brief", "assumptions", "tracks", "outputs", "evidence")
-OUTPUT_KEYS = {"id", "track", "audience", "goal", "checks"}
+SPEC_KEYS = ("title", "questions", "brief", "assumptions", "tracks", "outputs", "evidence")
+OUTPUT_KEYS = {"id", "track", "audience", "goal", "question", "checks"}
 OUTPUT_OPTIONAL = {"needs", "columns"}
 EVIDENCE_KEYS = ("id", "status", "source", "quote", "summary")
 MARKUP = re.compile(r"[*`|#>_]")
 EVIDENCE_TAG = re.compile(r"\[[a-z0-9]+(?:-[a-z0-9]+)*\]")
 
 CLARIFY = """사용자의 요청과 첨부 자료를 읽고 의뢰서를 만들기 전에 사용자에게 물을 질문을 고른다.
+사용자가 이번 결과로 답을 얻고 싶은 질문이나 내릴 결정이 요청에 분명하지 않으면 그것부터 묻는다.
 산출물의 종류, 독자, 범위를 정하는 데 결정적이면서 자료와 요청으로 답할 수 없는 것만 묻는다.
 자료에서 찾을 수 있거나 PM이 합리적으로 가정할 수 있는 것은 묻지 않는다. 최대 세 개, 한 줄씩 쓴다.
 물을 것이 없으면 빈 배열로 둔다. {"questions":["질문"]} JSON 객체만 출력한다.
 """
 
 DRAFT = """사용자의 요청, 대화, 첨부 자료를 팀이 작성할 실무 의뢰서로 구체화한다. 아래 JSON 객체만 출력한다.
-{"title":"의뢰 제목","brief":"목표·제약·납품 용도를 담은 문단","assumptions":["사용자가 정하지 않아 PM이 정한 가정"],
+{"title":"의뢰 제목","questions":["사용자가 답을 얻고 싶은 질문"],"brief":"목표·제약·납품 용도를 담은 문단","assumptions":["사용자가 정하지 않아 PM이 정한 가정"],
  "tracks":[{"id":"track-id","label":"업무 범위 이름","objective":"트랙의 목표"}],
- "outputs":[{"id":"output-id","track":"track-id","audience":"독자","goal":"산출물 목적",
+ "outputs":[{"id":"output-id","track":"track-id","audience":"독자","goal":"산출물 목적","question":"이 산출물이 답할 질문",
    "checks":["관찰 가능한 통과 기준"],"needs":["선행 output-id"],"columns":["필드명"]}],
  "evidence":[{"id":"evidence-id","status":"fact","source":"자료 이름","quote":"원문 그대로의 연속 구간","summary":"한 가지 내용"}]}
+- questions는 사용자가 이번 결과로 답을 얻고 싶은 질문이다. 사용자의 말에 가깝게 1~5개 적는다. 결과는 이 질문에 답하기 위해 만든다.
+- 산출물마다 question에 questions 중 하나를 그대로 적는다. 모든 질문에 답하는 산출물이 있어야 한다. 질문에 답하지 않는 산출물은 만들지 않는다.
+- checks의 첫 항목은 "문서 첫 부분에서 질문에 대한 답과 추천을 제시한다"처럼 질문에 직접 답하게 한다.
 - 트랙은 목표·독자·검증 기준이 다른 사업이나 업무 범위다. 성격이 다르면 나누고, 하나면 하나만 둔다. 최대 네 개.
 - 산출물은 사용자가 요청했거나 요청 목적에 꼭 필요한 문서만 최대 여덟 개 둔다. 요청 범위를 넘으면 assumptions에 이유를 적는다.
 - checks는 QA가 문서만 보고 판정할 수 있는 기준 2~4개다. 사용자가 말한 제약과 금지 사항은 해당 산출물 checks에 넣는다.
@@ -64,6 +68,7 @@ DRAFT = """사용자의 요청, 대화, 첨부 자료를 팀이 작성할 실무
 
 REVIEW = """PM이 사용자의 요청을 구체화한 의뢰서를 작성 전에 검수한다. 인용문이 원문에 있는지는 실행기가 이미 확인했다.
 - 각 근거의 summary가 quote를 벗어나거나 부풀리지 않는지, status가 quote의 확정 정도와 맞는지 본다.
+- questions가 사용자가 실제로 알고 싶은 것을 담았는지, 각 산출물이 질문에 직접 답하도록 설계됐는지 본다.
 - 산출물이 사용자의 요청과 답변을 빠짐없이 다루는지, 요청하지 않은 범위를 가정 없이 추가하지 않았는지 본다.
 - checks가 문서만으로 판정 가능한지, 사용자가 말한 제약이 반영됐는지 본다.
 - checks가 evidence에 없는 정보를 요구해 작성자가 충족할 수 없는지 본다.
@@ -122,13 +127,15 @@ def render_files(spec):
     title = text(spec["title"], "제목")
     if len(title.splitlines()) != 1:
         raise JobError("제목은 한 줄로 쓰세요.")
-    brief = [f"# {title}", "", text(spec["brief"], "brief"), ""]
+    brief = [f"# {title}", "", "## 알고 싶은 질문", "", *(f"- {item}" for item in texts(spec["questions"], "질문")), "",
+             text(spec["brief"], "brief"), ""]
     assumptions = texts(spec["assumptions"], "가정")
     if assumptions:
         brief.extend(["## 접수 시 PM 가정", "", *(f"- {item}" for item in assumptions), ""])
-    job = (f"title = {toml_value(title, 'title')}\n\n"
+    job = (f"title = {toml_value(title, 'title')}\n"
+           f"questions = {toml_value(list(spec['questions']), 'questions')}\n\n"
            + toml_tables("tracks", spec["tracks"], ("id", "label", "objective")) + "\n"
-           + toml_tables("outputs", spec["outputs"], ("id", "track", "audience", "goal", "needs", "columns", "checks")))
+           + toml_tables("outputs", spec["outputs"], ("id", "track", "question", "audience", "goal", "needs", "columns", "checks")))
     return {
         "brief.md": "\n".join(brief),
         "job.toml": job,
@@ -145,7 +152,10 @@ def check_spec(spec, sources):
             raise JobError(f"{key}에는 1~{limit}개의 항목이 필요합니다.")
     for row in spec["tracks"]:
         require_keys(row, ("id", "label", "objective"), "트랙")
-    plain = [spec["title"], spec["brief"], *spec["assumptions"],
+    questions = texts(spec["questions"], "질문")
+    if not 1 <= len(questions) <= 5 or any(len(item.splitlines()) != 1 for item in questions):
+        raise JobError("questions에는 한 줄 질문 1~5개가 필요합니다.")
+    plain = [spec["title"], spec["brief"], *spec["assumptions"], *questions,
              *(row[key] for row in spec["tracks"] for key in ("label", "objective")),
              *(row.get(key) for row in spec["outputs"] for key in ("audience", "goal")),
              *(check for row in spec["outputs"] for check in row.get("checks", []))]
@@ -175,7 +185,8 @@ def check_spec(spec, sources):
 
 
 def summarize(spec, issues):
-    lines = [f"# {spec['title']}", "", spec["brief"], ""]
+    lines = [f"# {spec['title']}", "", "알고 싶은 질문", *(f"  - {item}" for item in spec["questions"]), "",
+             spec["brief"], ""]
     if spec["assumptions"]:
         lines.extend(["PM 가정", *(f"  - {item}" for item in spec["assumptions"]), ""])
     for track in spec["tracks"]:
@@ -184,6 +195,7 @@ def summarize(spec, issues):
             if output["track"] == track["id"]:
                 after = f" · 선행 {', '.join(output['needs'])}" if output.get("needs") else ""
                 lines.append(f"  - {output['id']}: {output['goal']} (독자: {output['audience']}{after})")
+                lines.append(f"      답할 질문: {output['question']}")
                 lines.extend(f"      · {check}" for check in output["checks"])
         lines.append("")
     counts = {}

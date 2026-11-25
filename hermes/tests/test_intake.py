@@ -29,13 +29,16 @@ class IntakeTest(unittest.TestCase):
         self.sources = load_sources([self.temp / "sources"])
         self.spec = {
             "title": "출시 홍보",
+            "questions": ["출시를 어떻게 알릴까?"],
             "brief": "다음 달 출시 홍보 글을 만든다.",
             "assumptions": ["독자는 일반 소비자로 정했다."],
             "tracks": [{"id": "launch", "label": "출시 홍보", "objective": "출시 기능을 알린다."}],
             "outputs": [
                 {"id": "blog", "track": "launch", "audience": "소비자", "goal": "블로그 글",
+                 "question": "출시를 어떻게 알릴까?",
                  "checks": ["가격을 확정된 것처럼 쓰지 않는다.", "출시일을 근거 ID와 함께 쓴다."]},
                 {"id": "faq", "track": "launch", "audience": "상담원", "goal": "FAQ", "needs": ["blog"],
+                 "question": "출시를 어떻게 알릴까?",
                  "columns": ["질문", "답변"], "checks": ["질문을 5개 이상 쓴다."]},
             ],
             "evidence": [
@@ -84,6 +87,8 @@ class IntakeTest(unittest.TestCase):
         evidence = tomllib.loads((self.root / "evidence.toml").read_text())["evidence"]
         self.assertEqual(evidence[0]["quote"], "출시일은 3월 2일로 확정했다.")
         self.assertIn("## 접수 시 PM 가정", (self.root / "brief.md").read_text())
+        self.assertEqual(job.questions, ("출시를 어떻게 알릴까?",))
+        self.assertEqual(job.outputs["blog"].question, "출시를 어떻게 알릴까?")
         self.assertEqual(self.stages(), ["clarify", "spec-1", "review-spec-1"])
         spec_prompt = self.calls[1][2]
         self.assertIn("일반 소비자", spec_prompt)
@@ -163,6 +168,21 @@ class IntakeTest(unittest.TestCase):
         tagged["outputs"][0]["goal"] = "블로그 글[launch-date]"
         with self.assertRaisesRegex(JobError, "근거 ID"):
             check_spec(tagged, {CONVERSATION: "가격은 빼줘", **self.sources})
+
+    def test_every_question_needs_an_answering_output(self):
+        sources = {CONVERSATION: "가격은 빼줘", **self.sources}
+        unanswered = copy.deepcopy(self.spec)
+        unanswered["questions"].append("가격은 얼마로 할까?")
+        with self.assertRaisesRegex(JobError, "모든 질문"):
+            check_spec(unanswered, sources)
+        stray = copy.deepcopy(self.spec)
+        stray["outputs"][1]["question"] = "다른 질문"
+        with self.assertRaisesRegex(JobError, "question"):
+            check_spec(stray, sources)
+        missing = copy.deepcopy(self.spec)
+        del missing["outputs"][0]["question"]
+        with self.assertRaisesRegex(JobError, "산출물 항목"):
+            check_spec(missing, sources)
 
     def test_special_characters_survive_toml(self):
         tricky = copy.deepcopy(self.spec)

@@ -77,6 +77,7 @@ class WorkRunTest(unittest.TestCase):
         self.routing_reviews = []
         self.duplicate_review = False
         self.bad_markdown_fields = False
+        self.overview = None
 
     def invoke(self, role, stage, prompt, usage_path):
         self.calls.append((role, stage, prompt))
@@ -85,6 +86,8 @@ class WorkRunTest(unittest.TestCase):
         data = json.loads(prompt.split("## 입력 데이터 (JSON)\n", 1)[1])
         if stage in {"plan", "replan"}:
             return json.dumps(self.plan)
+        if stage == "overview":
+            return json.dumps(self.overview) if self.overview else "정리 실패"
         if stage.startswith("review-routing-"):
             issues = self.routing_reviews.pop(0) if self.routing_reviews else []
             return json.dumps({"routing_issues": issues})
@@ -124,6 +127,49 @@ class WorkRunTest(unittest.TestCase):
         reviews = {stage: prompt for _, stage, prompt in self.calls if stage.startswith("review-1-")}
         self.assertNotIn("ops-evidence-marker", reviews["review-1-service"])
         self.assertNotIn("service-evidence-marker", reviews["review-1-ops"])
+
+    def test_report_answers_each_user_question_first(self):
+        path = self.root / "job.toml"
+        text = path.read_text().replace('title = "팀 개선"', 'title = "팀 개선"\nquestions = ["문의를 어떻게 줄일까?", "점검을 어떻게 할까?"]')
+        text = text.replace('goal = "FAQ"', 'goal = "FAQ"\nquestion = "문의를 어떻게 줄일까?"')
+        text = text.replace('goal = "점검 시트"', 'goal = "점검 시트"\nquestion = "점검을 어떻게 할까?"')
+        path.write_text(text)
+        run = run_job(load_job(self.root), self.invoke)
+        report = (run / "delivery" / "README.md").read_text()
+        self.assertLess(report.index("## 질문과 답"), report.index("## 사용자 확인 사항"))
+        self.assertIn("### 문의를 어떻게 줄일까?\n\n- faq-draft ([FAQ](faq.md))", report)
+        self.assertIn("- 재고를 확인한다. ([점검 시트](checks.md))", report)
+        draft = next(prompt for _, stage, prompt in self.calls if stage == "faq-draft")
+        self.assertIn('"question":"문의를 어떻게 줄일까?"', draft)
+
+    def test_pm_overview_opens_report_with_delegation_from_plan(self):
+        self.overview = {"opening": "두 사업으로 나눠 진행했습니다.",
+                         "tracks": {"service": {"judgment": "문의가 반복돼 FAQ부터 정했습니다.", "conclusion": "FAQ로 문의를 줄입니다."},
+                                    "ops": {"judgment": "점검 담당이 없어 시트를 만들었습니다.", "conclusion": "주간 점검을 제안합니다."}}}
+        run = run_job(load_job(self.root), self.invoke)
+        report = (run / "delivery" / "README.md").read_text()
+        self.assertTrue(report.split("## ", 2)[1].startswith("PM 정리"))
+        self.assertIn("- **맡긴 일** 고객 응대 (client) - FAQ / 제작 (producer) - 응대 문구", report)
+        self.assertIn("- **결론** 주간 점검을 제안합니다.", report)
+        self.assertIn("### 결정하실 것\n\n- 운영 기준 결정", report)
+        self.assertNotIn("## 사용자 확인 사항", report)
+        self.assertIn("담당 제품기획 (product)", report)
+        self.assertIn("- [QA 1차 검수](../review-1.json): 문서별 수정 요청", report)
+        overview_prompt = next(prompt for _, stage, prompt in self.calls if stage == "overview")
+        self.assertIn("재고를 확인한다.", overview_prompt)
+
+    def test_failed_overview_still_delivers_reviewed_documents(self):
+        run = run_job(load_job(self.root), self.invoke)
+        report = (run / "delivery" / "README.md").read_text()
+        self.assertNotIn("## PM 정리", report)
+        self.assertIn("## 사용자 확인 사항", report)
+        self.assertIn("error", json.loads((run / "overview.json").read_text()))
+
+    def test_question_without_answering_output_is_rejected(self):
+        path = self.root / "job.toml"
+        path.write_text(path.read_text().replace('title = "팀 개선"', 'title = "팀 개선"\nquestions = ["아무도 답하지 않는 질문"]'))
+        with self.assertRaisesRegex(JobError, "모든 질문"):
+            load_job(self.root)
 
     def test_revises_dependent_output_and_rechecks(self):
         self.reviews = [{"faq": ["출처 필요"]}, {}]
