@@ -1,0 +1,139 @@
+[[evidence]]
+id = "e01"
+status = "decision"
+source = "의뢰 대화"
+quote = "둘은 별개 사업이니까 섞지 말고, 각각 내부 검토용으로 뭘 만들어야 할지 정리해서 작업해줘."
+summary = "두 사업을 분리해 각각 내부 검토용으로 정리하도록 요청했다."
+
+[[evidence]]
+id = "e02"
+status = "decision"
+source = "government-pabi-brief.md"
+quote = "    - (확정) tv파비를 이용\n    - (확정) 한국어 교육"
+summary = "자료에서 tv파비 활용과 한국어 교육을 확정 방향으로 적었다."
+
+[[evidence]]
+id = "e03"
+status = "open"
+source = "government-pabi-brief.md"
+quote = "- 파비를 인형으로 할지, 키링으로 할지는 아무것도 확정x"
+summary = "정부지원사업용 파비의 기기 형태는 확정되지 않았다."
+
+[[evidence]]
+id = "e04"
+status = "proposal"
+source = "government-pabi-brief.md"
+quote = "    - kpop 노래 가사를 이용한 한국어 교육?"
+summary = "K-pop 가사를 활용한 교육이 아이디어로 제시됐다."
+
+[[evidence]]
+id = "e05"
+status = "decision"
+source = "government-pabi-brief.md"
+quote = "- 정부 지원 사업 보고서 형태는 추후에 만들거고, 일단은 기획서처럼만 작성. 아이디어 공유? style"
+summary = "정부지원사업 보고서 형태는 뒤로 미루고 우선 기획서 형태로 작성하도록 적었다."
+
+[[evidence]]
+id = "e06"
+status = "open"
+source = "kocca-ai-content-proposal.md"
+quote = "> **기준:** 2027 공고가 아직 나오지 않아 2026 공고 기준으로 작성"
+summary = "기존 기획서는 2027 공고 대신 2026 공고를 기준으로 작성됐다고 밝힌다."
+
+[[evidence]]
+id = "e07"
+status = "open"
+source = "kocca-ai-content-proposal.md"
+quote = "> 참고: 교육 성격 콘텐츠가 사업 목적에 맞는지는 콘진원에 사전 문의가 필요해요. [자체 정리]"
+summary = "교육 성격 콘텐츠의 사업 목적 적합성은 사전 문의가 필요하다고 적었다."
+
+[[evidence]]
+id = "e08"
+status = "proposal"
+source = "kocca-ai-content-proposal.md"
+quote = "| A 쇼케이팝 팬 토크 | 핵심 콘텐츠: K-pop 팬의 학습 동기 |\n| E 한국어로 키우는 파비 | 핵심 학습 엔진: 가르치기, 질문, 오늘의 한마디, 퀴즈 |\n| C 교포 아이 / D 교실 짝꿍 | 확장 타겟이자 글로벌 검증 채널 (가정, 교육기관) |"
+summary = "기존 기획서는 A·E를 핵심 구성으로, C·D를 확장 대상으로 제안한다."
+
+[[evidence]]
+id = "e09"
+status = "open"
+source = "kocca-ai-content-proposal.md"
+quote = "- 실시간 청취 방식이 저작권상 문제없는지 **법적 검토 필요** ⚠"
+summary = "실시간 방송 청취 방식의 저작권 검토가 필요하다."
+
+[[evidence]]
+id = "e10"
+status = "proposal"
+source = "meeting-clean.md"
+quote = "- **판매 제안** — 쇼케이팝 팬토크를 우선 검토한다. 앱의 가상 캐릭터로 먼저 공개 일정과 출연 정보 알림을 시험하고, 팬이 관심 아티스트를 선택하면 파비가 먼저 알려 주는 흐름을 구상했다. 실물은 앱에서 확인한 경험을 확장하는 후보로 둔다."
+summary = "판매 사업에서 앱의 팬토크·알림 경험을 먼저 검토하고 실물 확장을 후보로 두었다."
+
+[[evidence]]
+id = "e11"
+status = "decision"
+source = "meeting-clean.md"
+quote = "- **회의 결정** — 연애 관계 캐릭터의 대안으로 매니저 방향을 선택했다. 교육 사업과 판매 사업 중 어디에 적용할지, 매니저가 어떤 동작을 맡을지는 기록에서 특정되지 않는다."
+summary = "회의에서 매니저 방향을 선택했으나 적용 사업과 동작은 특정하지 않았다."
+
+[[evidence]]
+id = "e12"
+status = "proposal"
+source = "meeting-clean.md"
+quote = "- **판매 가설** — 피규어 15만 원, 인형 5만 원, 월 구독료 1만 5천 원이 후보로 언급됐다. 구성과 정식 가격은 미정이다."
+summary = "기기별 가격과 구독료가 후보로 언급됐으며 구성과 정식 가격은 미정이다."
+
+[[evidence]]
+id = "e13"
+status = "open"
+source = "meeting-clean.md"
+quote = "아티스트 질문지를 받아 공개 정보로 얻기 어려운 답변이나 짧은 녹음을 콘텐츠로 쓰는 방안이 나왔다. 제공 여부, 음성 재생과 합성의 구분, 사용 권리는 확인이 필요하다."
+summary = "아티스트 답변·녹음 활용안의 제공 여부와 음성 재생·합성 구분 및 사용 권리는 확인이 필요하다."
+
+[[evidence]]
+id = "e14"
+status = "proposal"
+source = "meeting-clean.md"
+quote = "- **구독 제안** — 스트리밍 또는 투표 파트너와 협업해 구독 혜택을 만드는 방안이 나왔다."
+summary = "스트리밍 또는 투표 파트너와 구독 혜택을 만드는 방안이 제안됐다."
+
+[[evidence]]
+id = "e15"
+status = "proposal"
+source = "pabi-concept-details.md"
+quote = "| **아리랑 쇼케이팝 협업** | 아티스트 질문 답변지와 아티스트 음성 파일 제공 → 파비만 가진 독점 콘텐츠 |"
+summary = "기존 콘셉트 문서는 아티스트 답변지와 음성 파일을 활용하는 구성을 제안한다."
+
+[[evidence]]
+id = "e16"
+status = "proposal"
+source = "arirang-pabi-ideas.md"
+quote = "## 3. 최애에게 닿는 한국어 — 팬레터 코치 + 떼창 채점"
+summary = "팬레터 코치와 떼창 채점 아이디어가 후보로 제시됐다."
+
+[[evidence]]
+id = "e17"
+status = "open"
+source = "kocca-ai-content-proposal.md"
+quote = "| 1 | 자체 AI 기술 기반 (범용 AI 단순 활용 지양) |\n| 2 | 이 과제로 처음 공개되는 신규 콘텐츠 |\n| 3 | 문화콘텐츠 산업·향유 목적 (애니메이션·게임·영화 제외) |"
+summary = "기존 기획서가 자체 AI 기술, 신규 콘텐츠, 문화콘텐츠 목적을 2026 공고 요건으로 정리했다."
+
+[[evidence]]
+id = "e18"
+status = "open"
+source = "kocca-ai-content-proposal.md"
+quote = "| 과제 기획력 (45) | **AI기술 융합성** | AI 기술 실효성, 콘텐츠 융합기술 고도화 수준 | **20** |\n|  | 사업 이해도 | AI 콘텐츠 글로벌 선도형 사업 목적의 적합성 | 15 |"
+summary = "기존 기획서가 AI기술 융합성과 사업 이해도를 2026 서면평가 항목으로 정리했다."
+
+[[evidence]]
+id = "e19"
+status = "open"
+source = "kocca-ai-content-proposal.md"
+quote = "| 2026 | ㈜지로 | 일관성 유지 영상 생성 인공지능 기술 기반 인터랙티브 K-POP 아이돌 세계관 제작 | K-POP, 인터랙티브 |\n| 2026 | ㈜올림플래닛 | AI 360 공간·아바타 자동생성 기반 VTuber 팬 인터랙션 플랫폼 제작 | 팬 인터랙션 |"
+summary = "기존 기획서가 ㈜지로와 ㈜올림플래닛의 과제를 2026 선정 사례로 정리했다."
+
+[[evidence]]
+id = "e20"
+status = "open"
+source = "meeting-clean.md"
+quote = "- **협업 확인** — 아리랑TV를 통한 홍보의 역할을 구체화하고, 의상·영상·인터뷰 소재를 사용한다면 용도별 권리 범위를 확인한다."
+summary = "의상·영상·인터뷰 소재를 사용할 경우 용도별 권리 범위 확인이 필요하다고 적었다."

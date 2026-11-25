@@ -1,27 +1,23 @@
-# 파비 개발·사업화 검토 · PM 납품 보고
+# 파비 정부지원사업·AI 굿즈 내부 검토 문서 의뢰 · PM 결과 보고
 
-> 6개 산출물 QA 통과 · 실행 ID `20261125T003938Z-6hnde4b4`
+> 문서 4편 검수 통과 · 실행 ID `20261125T013529Z-92cj0iat`
 
-## 오너 확인 사항
+## 사용자 확인 사항
 
-- 매니저 콘셉트가 어느 사업과 기능까지 적용되는지 확인한다.
-- 판매 포인트 세 가지 중 먼저 검증할 항목을 결정한다.
-- 가격 후보가 각각 어떤 SKU에 해당하는지와 이번 가격 제시 테스트 범위를 확인한다.
+- 2027 지원사업 공고 원문을 확인한 뒤 교육 콘텐츠 후보의 우선순위를 결정할지 확인해 주세요.
+- 매니저 방향을 AI 굿즈 검토 범위에 포함할지 확인해 주세요.
 
-## 정부지원사업용 K-pop 한국어 교육 파비
+## 정부지원사업용 K-pop 한국어 교육 콘텐츠
 
-- **[K-pop 맥락의 한국어 말하기 에피소드 샘플](learning-episode.md)** · 담당 `producer`
-- **[한국어 교육 파비 지원사업 기획 초안](education-proposal.md)** · 담당 `pm`
+- **[공고 적합성 판단에 사용할 근거와 미확인 항목을 정리한다.](grant-basis.md)** · 담당 `marketing`
+- **[K-pop 한국어 교육 콘텐츠 후보를 비교하고 우선 검증할 방향을 제안한다.](grant-concepts.md)** · 담당 `product`
 
-## 아리랑TV 협업 판매용 AI 굿즈 파비
+## 아리랑TV 협업 판매용 AI 굿즈
 
-- **[판매 포인트·유료 구독 가설 의사결정 메모](sales-positioning.md)** · 담당 `marketing`
-- **[파트너 협의 질문·권한 확인표](partner-checklist.md)** · 담당 `marketing`
-- **[앱·실물 굿즈 MVP 기능 명세](goods-mvp.md)** · 담당 `product`
-- **[구매와 구독 검증 실험표](sales-experiments.md)** · 담당 `product`
+- **[쇼케이팝 연계 AI 굿즈의 제품 경험과 판매 가설을 비교한다.](goods-review.md)** · 담당 `product`
+- **[협업 소재와 판매 기능을 제안으로 옮기기 전에 확인할 조건을 정리한다.](goods-conditions.md)** · 담당 `marketing`
 
 ## 실행 기록
 
-- 모델 호출 14회 · 입력 61,514 · 출력 19,121 토큰
-- [PM 배정](../execution/plan.json) · [근거 색인](../inputs/run-inputs.json) · [실행 상태](../execution/run.json) · [역할별 토큰](../execution/usage-summary.json)
-- [review-1](../execution/review-1.json) · [review-2](../execution/review-2.json) · [review-3](../execution/review-3.json) · [review-routing-1](../execution/review-routing-1.json)
+- 모델 호출 13회 · 입력 45,677 · 출력 14,913 토큰
+- [PM 배정](../records/plan.json) · [QA 1차 의견](../records/review-1.json) · [QA 2차 의견](../records/review-2.json) · [역할별 토큰](../records/run-usage.json)

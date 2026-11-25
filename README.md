@@ -1,38 +1,51 @@
-# AGENT-STUDY · Hermes 실무 에이전트 팀
+# AGENT-STUDY
 
-의뢰를 받은 PM이 담당과 근거를 배정합니다. OpenAI Codex(`gpt-6-sol`)를 사용하는 각 역할이 작성하고 QA를 통과하면 PM 보고와 Markdown으로 납품합니다.
+PM에게 말로 요청하면 PM이 직원을 배정하고, 검수를 통과한 문서를 돌려주는 AI 팀입니다.
 
-## 터미널 시연
+[설계](docs/DESIGN.md) · [파비 시연 결과](docs/RESULTS.md)
 
-프로젝트 루트에서 아래 명령을 실행합니다. 터미널에 근거 분류, 역할별 작성, QA 진행 단계가 표시됩니다.
+## 시연
+
+터미널에서 순서대로 실행합니다.
 
 ```bash
-mkdir -p hermes/jobs/subscription-demo &&
-  cp hermes/examples/subscription-support/{brief.md,job.toml,evidence.toml} hermes/jobs/subscription-demo/ &&
-  python3 hermes/run_work.py subscription-demo --check &&
-  demo_index="$(python3 hermes/run_work.py subscription-demo)" &&
-  printf '%s\n' "$demo_index" &&
-  cat "$demo_index"
+cd ~/Developer/AGENT-STUDY
 ```
 
-## 시연 입력
+이전 시연 기록을 지웁니다. 처음이면 건너뛰어도 됩니다.
 
-가상의 커피 정기배송 사례입니다. 운영 정책과 고객 문의 4건으로 상담 답장과 운영 개선표를 작성합니다.
-
-| 파일 | 내용 |
-| --- | --- |
-| [brief.md](hermes/examples/subscription-support/brief.md) | 의뢰의 목적과 문의 표본을 해석할 범위 |
-| [job.toml](hermes/examples/subscription-support/job.toml) | 작성할 산출물, 독자, QA 기준과 선행 관계 |
-| [evidence.toml](hermes/examples/subscription-support/evidence.toml) | 배송·결제 정책과 가상 문의 4건의 근거 |
-
-## 결과 확인
-
-QA를 통과하면 PM 납품 보고의 경로와 내용을 표시합니다. 같은 폴더에서 `support-faq.md`(상담 FAQ·답장 초안)와 `support-actions.md`(운영 개선안)를 열 수 있습니다.
-
-```text
-hermes/jobs/subscription-demo/runs/<실행-id>/delivery/
+```bash
+rm -rf hermes/jobs/pabi-demo
 ```
 
-[시연 실행에서 나온 납품본](docs/cases/subscription-support/outputs/README.md)
+PM을 부르고 파비 자료를 넘깁니다.
 
-[설계와 역할](docs/DESIGN.md) · [운영 절차](docs/OPERATIONS.md) · [실행 결과](docs/RESULTS.md)
+```bash
+python3 hermes/intake.py pabi-demo -s docs/cases/pabi/inputs --run
+```
+
+## 터미널에 입력할 것
+
+1. `PM에게 요청할 내용을 입력하세요:`가 나오면 아래 문장을 붙여넣고 Enter를 누릅니다.
+
+   ```text
+   파비 관련 자료 보낼게. 지금 두 가지 사업을 보고 있어. 하나는 정부지원사업에 낼 K-pop 한국어 교육 콘텐츠고, 하나는 아리랑TV랑 협업해서 파는 AI 굿즈야. 둘은 별개 사업이니까 섞지 말고, 각각 내부 검토용으로 뭘 만들어야 할지 정리해서 작업해줘.
+   ```
+
+2. `PM 질문`이 나오면 답을 입력합니다. Enter만 누르면 PM이 알아서 정합니다.
+3. PM의 정리안이 나오면 `y`를 입력합니다. 고치고 싶은 점이 있으면 `y` 대신 말로 입력합니다.
+4. 직원 작업과 검수가 끝날 때까지 기다립니다. 약 10분 걸립니다.
+
+## 결과 보기
+
+```bash
+open hermes/jobs/pabi-demo/runs/*/delivery/README.md
+```
+
+PM 보고가 열립니다. 결과 문서는 같은 폴더에 있습니다.
+
+모델 인증 오류가 나면 아래 명령으로 상태를 확인합니다.
+
+```bash
+hermes -p default auth status openai-codex
+```

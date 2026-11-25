@@ -99,12 +99,12 @@ client(고객 문의·서비스 운영), producer(카피·교육 콘텐츠·대�
 각 산출물의 evidence_ids에는 그 작업에 필요한 최소 근거 ID만 넣는다. 해당 트랙에 배정한 근거만 선택한다.
 작성자가 검수 기준을 충족하는 데 필요한 근거는 빠뜨리지 않는다. 선행 산출물은 근거 ID를 포함한 핵심 요약으로 전달된다.
 재배정 시 previous_plan에서 검수 의견과 관련된 항목에만 필요한 수정을 적용한다.
-owner_review에는 납품을 받은 오너가 확인할 결정이나 보류 사항을 짧은 문장으로 최대 세 개 적는다.
+owner_review에는 납품을 받은 사용자가 확인할 결정이나 보류 사항을 짧은 문장으로 최대 세 개 적는다.
 결정할 사항이 없으면 빈 배열로 둔다. 시행·출시·계약의 결과를 확정하지 않는다.
 아래 형태의 JSON 객체만 출력한다.
 {"routing":{"근거-ID":{"tracks":["트랙-ID"],"reason":"귀속 근거"}},
  "assignments":{"산출물-ID":{"role":"product","evidence_ids":["근거-ID"],"focus":"이번 작업의 핵심"}},
- "owner_review":["오너가 확인할 결정"]}
+ "owner_review":["사용자가 확인할 결정"]}
 """, data)
     plan = read_json(response, "PM 계획")
     require_keys(plan, ("routing", "assignments", "owner_review"), "PM 계획")
@@ -229,8 +229,9 @@ def review_routing(job, plan, invoke, round_number):
     answer = invoke("qa", f"review-routing-{round_number}", """
 PM의 트랙 분류와 작업별 근거 선택을 검토한다. 각 산출물의 선행 요약에도 근거가 인계될 수 있다.
 검수 기준 충족을 실제로 막을 필수 근거 누락이나 잘못된 트랙 공유를 찾는다. 범위 내 보조 근거의 존재만으로 보류하지 않는다.
+의뢰 자료 전체에 없는 정보는 배정으로 해결할 수 없다. 검수 기준이 그 정보를 확인 필요로 표시하도록 허용하면 막지 않는다.
 귀속이 불명확한 근거는 보류할 수 있다. 결정과 적용 범위는 따로 판단한다.
-오너 확인 사항의 근거와 사실·제안 구분을 확인한다. 막는 문제만 ID와 함께 적는다.
+사용자 확인 사항의 근거와 사실·제안 구분을 확인한다. 막는 문제만 ID와 함께 적는다.
 문제가 없으면 빈 배열로 둔다. {"routing_issues":["ID: 수정할 점"]} 형태의 JSON 객체만 출력한다.
 """, data)
     result = read_json(answer, "QA 분류")
@@ -308,10 +309,10 @@ def record_usage(run, stages):
 def release(job, plan, artifacts, run, usage):
     pending = run / ".delivery"
     pending.mkdir()
-    lines = [f"# {job.title} · PM 납품 보고", "",
-             f"> {len(artifacts)}개 산출물 QA 통과 · 실행 ID `{run.name}`", ""]
+    lines = [f"# {job.title} · PM 결과 보고", "",
+             f"> 문서 {len(artifacts)}편 검수 통과 · 실행 ID `{run.name}`", ""]
     if plan["owner_review"]:
-        lines.extend(["## 오너 확인 사항", "", *(f"- {item}" for item in plan["owner_review"]), ""])
+        lines.extend(["## 사용자 확인 사항", "", *(f"- {item}" for item in plan["owner_review"]), ""])
     for track in job.tracks.values():
         lines.extend([f"## {track.label}", ""])
         for key, output in job.outputs.items():
@@ -399,9 +400,9 @@ def run_job(job, backend):
     return run
 
 
-def hermes_backend(profile, model, timeout):
+def hermes_backend(profile, model, timeout, max_prompt_bytes=100_000):
     def invoke(role, stage, prompt, usage_path):
-        if len(prompt.encode("utf-8")) > 100_000:
+        if len(prompt.encode("utf-8")) > max_prompt_bytes:
             raise JobError(f"{stage} 입력이 너무 큽니다. 근거와 산출물을 더 작은 의뢰로 나누세요.")
         command = [
             "hermes", "-p", profile, "--safe-mode", "--toolsets", "",
