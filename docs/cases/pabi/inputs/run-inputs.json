@@ -25,7 +25,7 @@
         "가사·서명 없는 음성·방송 원본 없이 진행하며 실제 아티스트인 것처럼 말하지 않는다."
       ],
       "needs": [],
-      "format": null,
+      "format": "md",
       "columns": []
     },
     {
@@ -40,7 +40,7 @@
         "검증용 카피 한 줄과 오너가 이번에 결정할 두 항목을 쓴다."
       ],
       "needs": [],
-      "format": null,
+      "format": "md",
       "columns": []
     },
     {
@@ -54,7 +54,7 @@
         "검토 가능한 회의 안건 초안으로 작성하고 협의 성립, 계약, 출연자 참여를 단정하지 않는다."
       ],
       "needs": [],
-      "format": null,
+      "format": "md",
       "columns": []
     },
     {
@@ -70,7 +70,7 @@
       "needs": [
         "learning-episode"
       ],
-      "format": null,
+      "format": "md",
       "columns": []
     },
     {
@@ -86,7 +86,7 @@
       "needs": [
         "sales-positioning"
       ],
-      "format": null,
+      "format": "md",
       "columns": []
     },
     {
@@ -103,7 +103,7 @@
         "sales-positioning",
         "goods-mvp"
       ],
-      "format": null,
+      "format": "md",
       "columns": [
         "실험",
         "가설",

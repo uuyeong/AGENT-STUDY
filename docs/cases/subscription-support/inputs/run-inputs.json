@@ -20,7 +20,7 @@
         "환불 확답과 결제수단 전체 번호 요청을 피한다."
       ],
       "needs": [],
-      "format": null,
+      "format": "md",
       "columns": []
     },
     {
@@ -35,7 +35,7 @@
       "needs": [
         "support-faq"
       ],
-      "format": null,
+      "format": "md",
       "columns": [
         "우선순위",
         "문제",

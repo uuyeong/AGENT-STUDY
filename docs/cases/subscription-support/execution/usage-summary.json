@@ -1,37 +1,71 @@
 {
-  "run_id": "20261124T093433Z-wl5n9_i0",
-  "status": "passed",
+  "run_id": "20261125T004502Z-6kybiyjq",
   "api_calls": 5,
-  "usage_by_stage": {
-    "plan": {
-      "provider": "openai-codex",
-      "model": "gpt-6-sol",
+  "input_tokens": 14651,
+  "output_tokens": 3925,
+  "by_role": {
+    "pm": {
       "api_calls": 1,
-      "completed": true
+      "input_tokens": 2568,
+      "output_tokens": 512
     },
-    "review-1-support": {
-      "provider": "openai-codex",
-      "model": "gpt-6-sol",
-      "api_calls": 1,
-      "completed": true
+    "qa": {
+      "api_calls": 2,
+      "input_tokens": 7271,
+      "output_tokens": 201
     },
-    "review-routing-1": {
-      "provider": "openai-codex",
-      "model": "gpt-6-sol",
-      "api_calls": 1,
-      "completed": true
-    },
-    "support-actions-draft": {
-      "provider": "openai-codex",
-      "model": "gpt-6-sol",
-      "api_calls": 1,
-      "completed": true
-    },
-    "support-faq-draft": {
-      "provider": "openai-codex",
-      "model": "gpt-6-sol",
-      "api_calls": 1,
-      "completed": true
+    "client": {
+      "api_calls": 2,
+      "input_tokens": 4812,
+      "output_tokens": 3212
     }
-  }
+  },
+  "usage_by_stage": {
+    "pm-plan": {
+      "role": "pm",
+      "provider": "openai-codex",
+      "model": "gpt-6-sol",
+      "completed": true,
+      "api_calls": 1,
+      "input_tokens": 2568,
+      "output_tokens": 512
+    },
+    "qa-review-routing-1": {
+      "role": "qa",
+      "provider": "openai-codex",
+      "model": "gpt-6-sol",
+      "completed": true,
+      "api_calls": 1,
+      "input_tokens": 2382,
+      "output_tokens": 53
+    },
+    "client-support-faq-draft": {
+      "role": "client",
+      "provider": "openai-codex",
+      "model": "gpt-6-sol",
+      "completed": true,
+      "api_calls": 1,
+      "input_tokens": 2330,
+      "output_tokens": 1512
+    },
+    "client-support-actions-draft": {
+      "role": "client",
+      "provider": "openai-codex",
+      "model": "gpt-6-sol",
+      "completed": true,
+      "api_calls": 1,
+      "input_tokens": 2482,
+      "output_tokens": 1700
+    },
+    "qa-review-1-support": {
+      "role": "qa",
+      "provider": "openai-codex",
+      "model": "gpt-6-sol",
+      "completed": true,
+      "api_calls": 1,
+      "input_tokens": 4889,
+      "output_tokens": 148
+    }
+  },
+  "unrecorded_stages": []
 }

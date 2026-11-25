@@ -31,7 +31,7 @@ class Output:
     goal: str
     checks: tuple[str, ...]
     needs: tuple[str, ...]
-    format: str | None
+    format: str
     columns: tuple[str, ...]
 
 
@@ -125,14 +125,14 @@ def load_job(root):
         columns = texts(row.get("columns", []), f"{key}.columns")
         if output_format is not None and output_format not in FORMATS:
             raise JobError(f"{key}의 형식은 md 또는 csv여야 합니다.")
-        if len(set(columns)) != len(columns) or (columns and output_format == "md"):
-            raise JobError(f"{key}의 CSV 열 정의가 유효하지 않습니다.")
+        if len(set(columns)) != len(columns) or any(len(column.splitlines()) != 1 for column in columns):
+            raise JobError(f"{key}의 Markdown 항목 필드가 유효하지 않습니다.")
         checks = texts(row.get("checks"), f"{key}.checks")
         if not checks:
             raise JobError(f"{key}에 검수 기준이 필요합니다.")
         outputs[key] = Output(
             key, track, text(row.get("audience"), f"{key}.audience"), text(row.get("goal"), f"{key}.goal"),
-            checks, texts(row.get("needs", []), f"{key}.needs"), output_format, columns,
+            checks, texts(row.get("needs", []), f"{key}.needs"), "md", columns,
         )
     if {output.track for output in outputs.values()} != tracks.keys():
         raise JobError("각 트랙에 최소 한 개의 산출물이 필요합니다.")

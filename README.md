@@ -1,6 +1,6 @@
 # AGENT-STUDY · Hermes 실무 에이전트 팀
 
-OpenAI Codex(`gpt-6-sol`)로 의뢰의 근거를 분류하고, 역할별로 산출물을 작성해 QA 후 납품합니다.
+의뢰를 받은 PM이 담당과 근거를 배정합니다. OpenAI Codex(`gpt-6-sol`)를 사용하는 각 역할이 작성하고 QA를 통과하면 PM 보고와 Markdown으로 납품합니다.
 
 ## 터미널 시연
 
@@ -27,7 +27,7 @@ mkdir -p hermes/jobs/subscription-demo &&
 
 ## 결과 확인
 
-QA를 통과하면 명령이 납품 목록 경로와 내용을 표시합니다. 같은 폴더에 `support-faq.md`(상담 FAQ·답장 초안)와 `support-actions.csv`(운영 개선표)가 있습니다.
+QA를 통과하면 PM 납품 보고의 경로와 내용을 표시합니다. 같은 폴더에서 `support-faq.md`(상담 FAQ·답장 초안)와 `support-actions.md`(운영 개선안)를 열 수 있습니다.
 
 ```text
 hermes/jobs/subscription-demo/runs/<실행-id>/delivery/

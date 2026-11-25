@@ -16,7 +16,7 @@
 
 - `job.toml`의 최상위에 `title`을 적는다. `[[tracks]]`의 필수 항목은 `id`, `label`, `objective`다. 트랙마다 산출물을 하나 이상 지정한다.
 - `[[outputs]]`의 필수 항목은 `id`, `track`, `audience`, `goal`, `checks`다. `checks`는 관찰 가능한 통과 기준의 문자열 배열이다.
-- `needs`, `format`, `columns`는 선택 항목이다. `needs`에는 같은 트랙의 선행 산출물 ID를 적는다. `format`은 `md` 또는 `csv`이며, `columns`를 지정하면 CSV 머리글과 순서가 고정된다.
+- `needs`, `format`, `columns`는 선택 항목이다. `needs`의 선행 산출물은 핵심 요약으로 전달한다. 납품 형식은 Markdown이며 `columns`는 항목별 필드명과 순서를 정한다. `format = "csv"`가 있는 의뢰서도 해당 필드를 Markdown으로 렌더링한다.
 - `[[evidence]]`의 필수 항목은 `id`, `source`, `summary`, `status`다. 상태는 사실 `fact`, 내부 결정 `decision`, 제안 `proposal`, 확인 대기 `open` 중 하나다.
 - ID에는 소문자 영숫자와 하이픈을 사용한다. 산출물 ID는 의뢰 안에서 유일해야 한다.
 
@@ -32,11 +32,11 @@ python3 hermes/run_work.py <의뢰-id>
 | 실행 폴더 항목 | 쓰임 |
 | --- | --- |
 | `inputs.json` | 해당 실행에 사용한 가공 입력 |
-| `plan.json`, `replan.json` | 근거 귀속, 보류 사유, 담당 역할과 형식 |
+| `plan.json`, `replan.json` | 근거 귀속, 작업별 근거 ID, 담당 역할과 오너 확인 사항 |
 | `review-routing-*.json` | 작성 전 근거 귀속 검수 |
-| `drafts/`, `review-<회차>.json` | 트랙별 작성본과 QA 수정 의견 |
-| `usage/`, `run.json` | Hermes 사용 증거, 오류와 실행 상태 |
-| `delivery/README.md` | QA를 통과한 납품 목록 |
+| `drafts/`, `review-<회차>.json` | Markdown 작성본과 해당 회차의 QA 대상·수정 의견 |
+| `usage/`, `usage-summary.json`, `run.json` | Hermes 사용 기록, 역할별 입력·출력 토큰과 실행 상태 |
+| `delivery/README.md` | QA를 통과한 납품물, 담당 역할, 오너 확인 사항 |
 
 오류가 나면 실행 폴더의 상태와 사용 기록을 확인한다. 다시 실행하면 별도 실행 폴더가 생긴다. 기기 동작, 계약, 제출 자격 등 실무 확인이 남은 항목은 산출물에 표시한다.
 

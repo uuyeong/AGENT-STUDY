@@ -1,0 +1,54 @@
+{
+  "prior": {
+    "run_id": "20261124T093433Z-wl5n9_i0",
+    "model": "gpt-6-sol",
+    "whole_run": {
+      "api_calls": 5,
+      "input_tokens": 15768,
+      "output_tokens": 3801
+    },
+    "first_drafts": {
+      "api_calls": 2,
+      "input_tokens": 5972,
+      "output_tokens": 3032
+    },
+    "first_draft_stages": {
+      "support-actions-draft": {
+        "api_calls": 1,
+        "input_tokens": 3712,
+        "output_tokens": 1375
+      },
+      "support-faq-draft": {
+        "api_calls": 1,
+        "input_tokens": 2260,
+        "output_tokens": 1657
+      }
+    }
+  },
+  "current": {
+    "run_id": "20261125T004502Z-6kybiyjq",
+    "model": "gpt-6-sol",
+    "whole_run": {
+      "api_calls": 5,
+      "input_tokens": 14651,
+      "output_tokens": 3925
+    },
+    "first_drafts": {
+      "api_calls": 2,
+      "input_tokens": 4812,
+      "output_tokens": 3212
+    },
+    "first_draft_stages": {
+      "support-actions-draft": {
+        "api_calls": 1,
+        "input_tokens": 2482,
+        "output_tokens": 1700
+      },
+      "support-faq-draft": {
+        "api_calls": 1,
+        "input_tokens": 2330,
+        "output_tokens": 1512
+      }
+    }
+  }
+}

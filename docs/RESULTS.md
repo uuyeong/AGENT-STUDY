@@ -6,9 +6,14 @@
 
 [파비 입력 자료](cases/pabi/inputs/README.md) · [정기배송 시연 납품본](cases/subscription-support/outputs/README.md)
 
+## 실무에서 쓰는 방식
+
+- 오너는 PM 창구에 목표와 완료 기준을 전달하고, PM 납품 보고에서 담당별 결과와 결정할 사항을 확인한다.
+- PM은 작업별로 필요한 근거를 골라 배정한다. 직원은 선행 문서의 핵심 요약을 받고, QA는 수정 영향이 있는 산출물만 다시 검수해 반복 입력을 줄인다.
+
 ## 회귀 테스트
 
-**16개 통과.** 칸반 접수, 입력 형식과 선행 관계 검증, 트랙별 근거 분리, CSV 검증, QA 보완과 납품 보류, 모델 사용 기록 검증을 확인했다.
+**20개 통과.** 작업별 근거 분리, 요약 인계, Markdown 필드, 수정 범위 재검수, 납품 보류와 토큰 기록을 확인했다.
 
 ```bash
 python3 -m unittest discover -s hermes/tests -v
@@ -20,8 +25,17 @@ Hermes 사용 기록에서 두 의뢰 모두 OpenAI Codex(`openai-codex`, `gpt-6
 
 | 의뢰 | 납품 결과 | 검증 |
 | --- | --- | --- |
-| 파비 개발·사업화 기획 | 교육·판매 2개 트랙에서 Markdown 다섯 편과 CSV 한 편 | 근거 21개 분류 · QA 통과 · 모델 13회 호출 |
-| [가상 커피 정기배송 시연](cases/subscription-support/inputs/README.md) | [상담 FAQ·답장 초안과 운영 개선표](cases/subscription-support/outputs/README.md) | QA 통과 · 모델 5회 호출 |
+| 파비 개발·사업화 기획 | 교육·판매 2개 트랙의 Markdown 6편 | 근거 21개 분류 · QA 통과 · 모델 14회 호출 |
+| [가상 커피 정기배송 시연](cases/subscription-support/inputs/README.md) | [상담 FAQ·답장 초안과 운영 개선안](cases/subscription-support/outputs/README.md) | Markdown 2편 QA 통과 · 모델 5회 호출 |
+
+### 토큰 사용량
+
+같은 의뢰 입력과 모델로 QA를 통과한 실행을 비교했다. 초안 입력은 작성 단계에 전달한 토큰이며, 전체는 PM·작성·QA 호출의 입력과 출력을 합산한 값이다.
+
+| 의뢰 | 초안 작성 입력 토큰 | 전체 토큰 | 측정 기록 |
+| --- | --- | --- | --- |
+| 파비 | 26,424 → 14,608 · **44.7% 감소** | 98,923 → 80,635 · 18.5% 감소 | [파비 비교 기록](cases/pabi/execution/token-comparison.json) |
+| 정기배송 | 5,972 → 4,812 · **19.4% 감소** | 19,569 → 18,576 · 5.1% 감소 | [정기배송 비교 기록](cases/subscription-support/execution/token-comparison.json) |
 
 ## 파비 개발·사업화 사례
 
@@ -45,18 +59,18 @@ Hermes 사용 기록에서 두 의뢰 모두 OpenAI Codex(`openai-codex`, `gpt-6
 
 | 역할 | 이번 의뢰에서 한 일 | 결과물과 기록 |
 | --- | --- | --- |
-| PM | 근거 21개를 교육 전용 7개, 판매 전용 8개, 공통 5개, 귀속 확인 1개로 분류했다. 제작자의 에피소드를 반영해 교육 목표와 2주 파일럿을 기획했다. | [근거 분류·역할 배정](cases/pabi/execution/plan.json) · [교육 지원사업 기획 초안](cases/pabi/outputs/education-proposal.md) |
-| 제작 | 초급 성인 팬이 가상 굿즈샵에서 물건의 위치를 묻는 4턴 한·영 대화를 작성했다. 답변별 피드백과 재시도, 음성 인식 불확실 시 문장 입력을 포함했다. | [한국어 말하기 에피소드](cases/pabi/outputs/learning-episode.md) |
-| 마케팅 | 구매·재방문·구독 이유를 분리해 판매 포인트를 우선순위로 정했다. 앱·실물 명세를 참고해 구매·구독 실험을 설계하고, 일정·브랜드·답변지·음성·투표에 관한 협의 질문을 정리했다. | [판매 포인트·구독 가설](cases/pabi/outputs/sales-positioning.md) · [구매·구독 실험표](cases/pabi/outputs/sales-experiments.csv) · [파트너 협의표](cases/pabi/outputs/partner-checklist.md) |
-| 제품기획 | 판매 포인트를 앱 선행 범위와 실물 검증으로 구체화했다. 현지 시간대 알림, 출처·갱신 시각, 정정·취소, 방해금지, 오프라인·미연결 상태를 기능별 수용 기준으로 정했다. | [앱·실물 MVP 기능 명세](cases/pabi/outputs/goods-mvp.md) |
-| QA | 근거 분류를 먼저 확인한 뒤 각 트랙의 산출물을 검수했다. 구독 가격을 제시할 때 비교할 혜택이 모호하다고 지적했다. 마케팅이 월간 팬 활동 회고 카드 후보와 테스트 착수 조건을 명시한 뒤 6개 산출물이 통과했다. | [분류 QA](cases/pabi/execution/review-routing-1.json) · [보완 의견](cases/pabi/execution/review-1.json) · [최종 QA](cases/pabi/execution/review-2.json) |
+| PM | 근거 21개를 교육 7개, 판매 10개, 공통 2개, 귀속 확인 2개로 나눴다. 작업별 담당과 근거를 정하고, 교육 파일럿과 오너 확인 사항을 작성했다. | [근거 분류·역할 배정](cases/pabi/execution/plan.json) · [교육 지원사업 기획 초안](cases/pabi/outputs/education-proposal.md) |
+| 제작 | 초급 성인 팬이 가상 굿즈샵에서 응원봉 재고를 묻는 4턴 한·영 대화를 작성했다. 답변별 피드백과 재시도, 인식이 불확실할 때의 텍스트 선택을 포함했다. | [한국어 말하기 에피소드](cases/pabi/outputs/learning-episode.md) |
+| 마케팅 | 구매·재방문·구독 이유를 나누어 판매 포인트를 정하고 일정·브랜드·답변지·음성·투표를 협의할 질문으로 정리했다. | [판매 포인트·구독 가설](cases/pabi/outputs/sales-positioning.md) · [파트너 협의표](cases/pabi/outputs/partner-checklist.md) |
+| 제품기획 | 판매 포인트를 앱과 실물의 수용 기준으로 구체화하고, 판매 메시지·실물 수요·월 구독 의향을 각각 시험하는 안을 작성했다. | [앱·실물 MVP 기능 명세](cases/pabi/outputs/goods-mvp.md) · [구매·구독 실험안](cases/pabi/outputs/sales-experiments.md) |
+| QA | 근거 배정과 산출물 6편을 검수했다. 교육 기획의 선행 문서 참조와 근거 표기를 보완하도록 요청했고, 이 파일을 다시 확인했다. | [분류 QA](cases/pabi/execution/review-routing-1.json) · [보완 의견](cases/pabi/execution/review-1.json) · [최종 재검수](cases/pabi/execution/review-3.json) |
 | 고객 응대 | 파비 의뢰에서는 배정된 작업이 없었다. 별도 정기배송 의뢰에서 상담 FAQ와 운영 개선표를 작성했다. | [정기배송 의뢰 명세](../hermes/examples/subscription-support/job.toml) |
 
-교육 트랙에서는 제작자의 에피소드가 PM 기획의 학습 과제로 이어졌다. 판매 트랙에서는 마케팅의 판매 포인트를 제품기획이 MVP 명세로 구체화했고, 마케팅이 두 문서를 바탕으로 실험표를 작성했다. [산출물 선행 관계](cases/pabi/inputs/job.toml)
+교육에서는 제작자의 에피소드 요약이 PM 기획으로 이어졌다. 판매에서는 제품기획이 판매 포인트 요약으로 MVP를 작성하고, 두 문서의 요약을 실험안에 반영했다. [산출물 선행 관계](cases/pabi/inputs/job.toml)
 
 ### 최종 결과
 
-- **교육** — 해외 초급 팬이 굿즈샵에서 정중히 위치를 묻고, 다른 장면에서도 목표 표현을 쓸 수 있는지 2주 동안 검증하는 안이다. 앱은 연습·기록을 맡고, tv파비는 선택형 음성 경험으로 검토한다. [학습 에피소드](cases/pabi/outputs/learning-episode.md) · [지원사업 기획 초안](cases/pabi/outputs/education-proposal.md)
-- **판매** — 관심 아티스트의 현지 시각 일정과 리마인드로 앱의 반복 사용부터 시험한다. 실물은 소장성과 화면을 조작하지 않고 알림·대화를 이용하는 경험을, 구독은 월간 팬 활동 회고 카드를 각각 가설로 검증한다. 협업 콘텐츠와 음성·투표 혜택은 권리·운영 확인 항목으로 명시했다. [판매 포인트](cases/pabi/outputs/sales-positioning.md) · [MVP 명세](cases/pabi/outputs/goods-mvp.md) · [실험표](cases/pabi/outputs/sales-experiments.csv) · [파트너 협의표](cases/pabi/outputs/partner-checklist.md)
+- **교육** — 해외 초급 팬이 굿즈샵에서 응원봉 재고와 수량을 묻는 상황극을 사용한다. 목표 표현을 다른 상황에서도 쓸 수 있는지 2주 동안 검증하고, 음성 입력은 선택으로 둔다. [학습 에피소드](cases/pabi/outputs/learning-episode.md) · [지원사업 기획 초안](cases/pabi/outputs/education-proposal.md)
+- **판매** — 현지 시각 일정과 알림으로 앱의 반복 사용을 시험한다. 실물은 시제품과 가격을 본 뒤 알림을 신청하는 행동을, 구독은 앱을 반복 사용한 뒤 유료 시안에 보이는 관심을 측정한다. 협업 콘텐츠와 음성·투표 혜택은 권리·운영 확인 항목이다. [판매 포인트](cases/pabi/outputs/sales-positioning.md) · [MVP 명세](cases/pabi/outputs/goods-mvp.md) · [실험안](cases/pabi/outputs/sales-experiments.md) · [파트너 협의표](cases/pabi/outputs/partner-checklist.md)
 
 매니저 콘셉트가 어느 사업에 적용되는지는 확인 대상으로 남겼다. 가격, 구매 전환, 학습 효과와 협업 권한은 후속 검증 항목이다. [실행 상태](cases/pabi/execution/run.json) · [작업별 모델 사용 기록](cases/pabi/execution/usage-summary.json)
